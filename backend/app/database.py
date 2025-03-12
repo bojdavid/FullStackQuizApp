@@ -2,7 +2,7 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
-uri = "mongodb+srv://BOJ:Iamhidden123@simplesite.bx8ax.mongodb.net/?appName=SimpleSite"
+uri = ""
 
 uri_loc ="mongodb://localhost:27017/"
 
