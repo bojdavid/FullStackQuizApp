@@ -29,8 +29,8 @@ const viewCorrectAns = () => {
 }
 
 const goToQuestion = (id) =>{
-    console.log(id)
     questionNum = id;
+    viewCorrect=false;
 }
 
 </script>

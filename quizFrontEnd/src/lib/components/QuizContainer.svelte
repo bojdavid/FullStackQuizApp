@@ -37,7 +37,7 @@
           <!-- OPTIONS CONTAINER  -->
           <section class="text-md md:text-lg px-2 flex flex-col items-start">
               {#each options as option}
-                    {#if !viewCorrect}
+                    {#if !question.answered}
                         <button class="min-w-9/10 mt-3 text-left
                                         dark:hover:bg-primary-800 
                                         transition ease-in-out duration-300
