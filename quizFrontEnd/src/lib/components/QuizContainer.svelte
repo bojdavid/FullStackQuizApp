@@ -1,6 +1,12 @@
 <script>
 
-    let {question, viewCorrect, goToNextQuestion, selectedAns} = $props();
+    let {question, 
+        viewCorrect, 
+        goToNextQuestion, 
+        selectedAns, 
+        goToPrevQuestion, 
+        questionNum, 
+        viewCorrectAns} = $props();
     
     let active = $state("");
    let options = $state([]);
@@ -13,6 +19,8 @@
             {option:"C", text:question.OptionC, active: false},
             {option:"D", text:question.OptionD, active: false},
         ];
+
+
         active = "";
         
     });
@@ -22,6 +30,7 @@
         option.active = true;
         active = option.option;
         question.answered=true;
+        question.choice = option.option;
 
         
   }
@@ -37,14 +46,14 @@
           <!-- OPTIONS CONTAINER  -->
           <section class="text-md md:text-lg px-2 flex flex-col items-start">
               {#each options as option}
-                    {#if !question.answered}
+                    {#if !(viewCorrect || question.view_correct_ans)}
                         <button class="min-w-9/10 mt-3 text-left
                                         dark:hover:bg-primary-800 
                                         transition ease-in-out duration-300
                                         rounded-lg
                                         border-2 border-surface-500
                                         "
-                                class:active={option.option === active}
+                                class:active={option.option === active || option.option == question.choice}
                                 onclick={() => setActiveOption(option)}>
                             <span class="mr-3 dark:bg-primary-700 w-15 inline-block py-3 text-center font-bold">
                                 {option.option}
@@ -53,12 +62,12 @@
                         </button>
                     {:else}
                         <button class="min-w-9/10 mt-3 text-left
-                                        dark:hover:bg-primary-800 
+                                        {option.option == question.CorrectOption? "bg-success-400 dark:bg-success-700":"bg-error-400 dark:bg-error-700"}
                                         transition ease-in-out duration-300
                                         rounded-lg
                                         border-2 border-surface-500
                                         "
-                                class:active={option.option === question.CorrectOption}
+                               
                                 >
                             <span class="mr-3 dark:bg-primary-500 w-15 inline-block py-3 text-center font-bold">
                                 {option.option}
@@ -68,15 +77,41 @@
                     {/if}
               {/each}
           </section>
-          <div class="w-full flex justify-end mt-10" >
-            <button type="button" class="btn preset-filled-secondary-500" onclick={goToNextQuestion}>
-                {#if active == ""}
-                    Skip
+          <div class="w-full flex justify-between mt-10" >
+                {#if questionNum > 0}
+                    <button type="button" class="btn preset-filled-secondary-500" onclick={goToPrevQuestion}>
+                        Prev
+                    </button>
                 {:else}
-                    Next
+                    <div></div>
                 {/if}
-            </button>
+                <button type="button" class="btn preset-filled-secondary-500" onclick={goToNextQuestion}>
+                    {#if active == ""}
+                        Skip
+                    {:else}
+                        Next
+                    {/if}
+                </button>
             </div>
+
+
+        <section class="mb-10">
+            <div class="w-full flex justify-start mt-10" >
+                <button type="button" class="btn preset-filled-secondary-500" onclick={() => viewCorrectAns(question)}>
+                    {#if !(viewCorrect || question.view_correct_ans)}
+                        View Correct Answer
+                    {:else}
+                        View Reason for Answer
+                    {/if}
+                </button>
+            </div>
+    
+            <!--
+            <div class:hidden={!viewCorrect}>
+                {questions[questionNum].CorrectOption}
+            </div>
+            -->
+        </section>
   
           
       </div>
