@@ -1,5 +1,4 @@
 <script>
-    import { Tooltip } from '@skeletonlabs/skeleton-svelte';
     let openState = $state(false);
 
     let {questions, questionNum, goToQuestion, viewCorrect} = $props();
@@ -22,29 +21,7 @@ const viewQuestionNavs = ()=>{
     console.log(questions[questionNum].answered);
 }
 
-
- 
 </script>
-
-
-<Tooltip
-  open={openState}
-  onOpenChange={(e) => (openState = e.open)}
-  positioning={{ placement: 'right' }}
-  triggerBase="underline"
-  contentBase="card preset-filled p-2"
-  openDelay={200}
-  arrow
->
-    {#snippet trigger()}
-        <div style="display: contents">
-            <button onclick={viewQuestionNavs} class="btn preset-filled-primary-500">
-                Question <span>{questionNum + 1}</span>
-            </button>
-        </div>
-    {/snippet}
-  {#snippet content()}Click to view the questions you have answered.{/snippet}
-</Tooltip>
 
 <div class="flex justify-start flex-wrap">
     <!--    WHEN USER ANSWERS A QUESTION, THE BACKGROUND CHANGES-->
@@ -60,6 +37,8 @@ const viewQuestionNavs = ()=>{
         {/each}
     {/if}
 </div>
+
+
 
 <style>
  .active{

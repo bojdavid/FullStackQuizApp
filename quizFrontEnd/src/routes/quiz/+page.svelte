@@ -1,18 +1,23 @@
 <script>
 import "../../styles/app.css";
-import QuizContainer from "$lib/components/QuizContainer.svelte";
-import QuestionsNavigation from "$lib/components/QuestionsNavigation.svelte";
+import QuizContainer from "$lib/components/quiz/QuizContainer.svelte";
+import QuestionsNavigation from "$lib/components/quiz/QuestionsNavigation.svelte";
 import { Progress } from '@skeletonlabs/skeleton-svelte';
 
+//SAMPLE DATA - FETCH JSON DATA AND REPLACE DATA.QUESTIONS WITH RESPONSE.JSON
 let { data } = $props();
 let questions = data.questions
+
+
+
+// QUIZ VARIABLES
 let questionNum = $state(0);
 let viewCorrect = $state(false);
 let selectedAns = $state(true);
 let animateEndQuizbtn = $state(false);
 let hideItem = "hidden";
 
-//Add a property for when the question has been answered
+// ADDITIONAL PROPERTIES FOR MANIPULATING QUIZ UI BETTER
 for(let i = 0; i < questions.length; i++){
     questions[i].answered = false;
     questions[i].view_correct_ans = false;
@@ -46,7 +51,6 @@ const goToPrevQuestion = () =>{
     viewCorrect = false
 }
 
-
 const viewCorrectAns = (question) => {
     question.view_correct_ans = true;
     viewCorrect=true;
@@ -73,7 +77,6 @@ const endQuiz = () => {
 
 <main class="mt-10 mx-auto min-h-screen flex flex-col items-center justify-center ">
     <div class="min-w-xs w-full max-w-2xl mx-2 px-2">
-
         <div class="text-3xl font-bold  mb-5">
             Timer
         </div>
@@ -111,6 +114,7 @@ const endQuiz = () => {
     </div>
         
 </main>
+
 
 <style>
 
