@@ -1,4 +1,4 @@
-import { questions } from './data.js';
+import { questions } from '../data.js';
 
 export function load({ params }) {
 	return {
