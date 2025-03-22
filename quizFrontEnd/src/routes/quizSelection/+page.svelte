@@ -3,7 +3,8 @@ import "../../styles/app.css";
 import SelectSubject from "$lib/components/quizSelection/SelectSubject.svelte";
 import SelectCategory from "$lib/components/quizSelection/SelectCategory.svelte";
 import SelectQuestionRange from "$lib/components/quizSelection/SelectQuestionRange.svelte";
-
+import { goto } from "$app/navigation";
+   
     //sample data
     interface category {
         topic : string;
@@ -19,120 +20,7 @@ import SelectQuestionRange from "$lib/components/quizSelection/SelectQuestionRan
     
     let {data} = $props();
 
-    let subjects : subject[] = [
-  { subject: "Mathematics", category: [
-      { topic: "Algebra", no_of_questions: 30 },
-      { topic: "Geometry", no_of_questions: 25 },
-      { topic: "Calculus", no_of_questions: 20 },
-      { topic: "Statistics", no_of_questions: 15 },
-      { topic: "Trigonometry", no_of_questions: 10 }
-  ]},
-  { subject: "Physics", category: [
-      { topic: "Mechanics", no_of_questions: 35 },
-      { topic: "Optics", no_of_questions: 20 },
-      { topic: "Thermodynamics", no_of_questions: 25 },
-      { topic: "Electricity & Magnetism", no_of_questions: 30 },
-      { topic: "Modern Physics", no_of_questions: 15 }
-  ]},
-  { subject: "Chemistry", category: [
-      { topic: "Organic Chemistry", no_of_questions: 40 },
-      { topic: "Inorganic Chemistry", no_of_questions: 30 },
-      { topic: "Physical Chemistry", no_of_questions: 25 },
-      { topic: "Analytical Chemistry", no_of_questions: 20 },
-      { topic: "Biochemistry", no_of_questions: 15 }
-  ]},
-  { subject: "Biology", category: [
-      { topic: "Cell Biology", no_of_questions: 35 },
-      { topic: "Genetics", no_of_questions: 30 },
-      { topic: "Evolution", no_of_questions: 20 },
-      { topic: "Human Anatomy", no_of_questions: 25 },
-      { topic: "Ecology", no_of_questions: 15 }
-  ]},
-  { subject: "Computer Science", category: [
-      { topic: "Programming Fundamentals", no_of_questions: 40 },
-      { topic: "Data Structures", no_of_questions: 30 },
-      { topic: "Algorithms", no_of_questions: 25 },
-      { topic: "Databases", no_of_questions: 20 },
-      { topic: "Cybersecurity", no_of_questions: 15 }
-  ]},
-  { subject: "History", category: [
-      { topic: "Ancient History", no_of_questions: 25 },
-      { topic: "Medieval History", no_of_questions: 30 },
-      { topic: "Modern History", no_of_questions: 20 },
-      { topic: "World Wars", no_of_questions: 15 },
-      { topic: "Post-Colonial History", no_of_questions: 10 }
-  ]},
-  { subject: "Geography", category: [
-      { topic: "Physical Geography", no_of_questions: 35 },
-      { topic: "Human Geography", no_of_questions: 30 },
-      { topic: "Climate & Weather", no_of_questions: 20 },
-      { topic: "Oceans & Rivers", no_of_questions: 25 },
-      { topic: "Maps & Cartography", no_of_questions: 15 }
-  ]},
-  { subject: "Economics", category: [
-      { topic: "Microeconomics", no_of_questions: 30 },
-      { topic: "Macroeconomics", no_of_questions: 25 },
-      { topic: "International Trade", no_of_questions: 20 },
-      { topic: "Monetary Policy", no_of_questions: 15 },
-      { topic: "Labor Economics", no_of_questions: 10 }
-  ]},
-  { subject: "Political Science", category: [
-      { topic: "Government Systems", no_of_questions: 25 },
-      { topic: "Public Policy", no_of_questions: 30 },
-      { topic: "Constitutional Law", no_of_questions: 20 },
-      { topic: "International Relations", no_of_questions: 15 },
-      { topic: "Political Theories", no_of_questions: 10 }
-  ]},
-  { subject: "Business Studies",  category: [
-      { topic: "Marketing", no_of_questions: 30 },
-      { topic: "Finance", no_of_questions: 25 },
-      { topic: "Management", no_of_questions: 20 },
-      { topic: "Entrepreneurship", no_of_questions: 15 },
-      { topic: "Business Ethics", no_of_questions: 10 }
-  ]},
-  { subject: "Sociology",  category: [
-      { topic: "Social Structures", no_of_questions: 30 },
-      { topic: "Cultural Studies", no_of_questions: 25 },
-      { topic: "Social Inequality", no_of_questions: 20 },
-      { topic: "Family & Society", no_of_questions: 15 },
-      { topic: "Urbanization", no_of_questions: 10 }
-  ]},
-  { subject: "Psychology",  category: [
-      { topic: "Cognitive Psychology", no_of_questions: 35 },
-      { topic: "Behavioral Psychology", no_of_questions: 30 },
-      { topic: "Clinical Psychology", no_of_questions: 25 },
-      { topic: "Developmental Psychology", no_of_questions: 20 },
-      { topic: "Neuroscience", no_of_questions: 15 }
-  ]},
-  { subject: "Philosophy",  category: [
-      { topic: "Ethics", no_of_questions: 30 },
-      { topic: "Metaphysics", no_of_questions: 25 },
-      { topic: "Epistemology", no_of_questions: 20 },
-      { topic: "Logic", no_of_questions: 15 },
-      { topic: "Aesthetics", no_of_questions: 10 }
-  ]},
-  { subject: "Law",  category: [
-      { topic: "Criminal Law", no_of_questions: 35 },
-      { topic: "Civil Law", no_of_questions: 30 },
-      { topic: "International Law", no_of_questions: 25 },
-      { topic: "Corporate Law", no_of_questions: 20 },
-      { topic: "Intellectual Property", no_of_questions: 15 }
-  ]},
-  { subject: "Engineering",  category: [
-      { topic: "Mechanical Engineering", no_of_questions: 40 },
-      { topic: "Electrical Engineering", no_of_questions: 30 },
-      { topic: "Civil Engineering", no_of_questions: 25 },
-      { topic: "Computer Engineering", no_of_questions: 20 },
-      { topic: "Aerospace Engineering", no_of_questions: 15 }
-  ]},
-  { subject: "Music",  category: [
-      { topic: "Music Theory", no_of_questions: 25 },
-      { topic: "Instruments", no_of_questions: 30 },
-      { topic: "Composition", no_of_questions: 20 },
-      { topic: "Genres", no_of_questions: 15 },
-      { topic: "Music History", no_of_questions: 10 }
-  ]}
-]
+    let subjects : subject[] = data.subjects
 
 for(let i = 0; i < subjects.length; i++){
     subjects[i].id = i;
@@ -150,7 +38,6 @@ for(let i = 0; i < subjects.length; i++){
     let selectQuestionRange :boolean = $state(false);
     let questions_limit : number = $state(0);
     let selectedQuestionRange :number = $state();
-    
     
     //Styles for the Buttons
     let submitButtonClass :string = "btn preset-outlined-secondary-500 rounded-lg text-md p-4"
@@ -203,8 +90,26 @@ for(let i = 0; i < subjects.length; i++){
         selectedQuestionRange = range;
     }
 
-    const startQuiz = () => {
-        alert(`Subject: ${selectedSubject.subject} \n Category: ${selectedCategory.map(cat => cat.topic).join(", ")} \n Number Of Questions = ${selectedQuestionRange}`)
+    const startQuiz = async () => {
+        let formData :FormData = new FormData();
+        formData.append("subject", selectedSubject.subject);
+        formData.append("Category", JSON.stringify(selectedCategory));
+        formData.append("noOfQuestion", selectQuestionRange.toString());
+
+        const response = await fetch('?/startQuiz_', {
+                method: 'POST',
+                body: formData
+            });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }else{
+        goto('/quiz')
+    }
+        
+
+        //alert(`Subject: ${selectedSubject.subject} \n Category: ${selectedCategory.map(cat => cat.topic).join(", ")} \n Number Of Questions = ${selectedQuestionRange}`)
+        //location.reload();
     }
 
 </script>
