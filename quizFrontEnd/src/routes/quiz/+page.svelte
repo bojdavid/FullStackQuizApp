@@ -4,6 +4,7 @@ import QuizContainer from "$lib/components/quiz/QuizContainer.svelte";
 import QuestionsNavigation from "$lib/components/quiz/QuestionsNavigation.svelte";
 import { Progress } from '@skeletonlabs/skeleton-svelte';
 
+
 //SAMPLE DATA - FETCH JSON DATA AND REPLACE DATA.QUESTIONS WITH RESPONSE.JSON
 let { data } = $props();
 let questions = data.questions
@@ -26,11 +27,16 @@ for(let i = 0; i < questions.length; i++){
     // console.log(questions[i])
 }
 
+// Transition variables
+let changedQuestion = $state(false);
+
 
 const goToNextQuestion = () => {
+    console.log(changedQuestion)
     //Do not let the questions num go beyond the questions index as it increments
     if(questionNum < questions.length - 1){
         questionNum++;
+        changedQuestion =true
     }
     //Animate the end quiz button when the user gets to the last question so they can notice it.
     if(questionNum == (questions.length - 1 )){
@@ -98,15 +104,17 @@ const endQuiz = () => {
             <Progress value={questionNum} max={questions.length -1}/>
         </div>   
         
+        
         <QuizContainer 
-                question = {questions[questionNum]} 
-                {viewCorrect} 
-                {goToNextQuestion} 
-                {goToPrevQuestion}
-                {questionNum}
-                {selectedAns}
-                {viewCorrectAns}
-        />
+                    question = {questions[questionNum]} 
+                    {viewCorrect} 
+                    {goToNextQuestion} 
+                    {goToPrevQuestion}
+                    {questionNum}
+                    {selectedAns}
+                    {viewCorrectAns}
+            />
+        
 
         
 

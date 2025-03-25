@@ -1,6 +1,6 @@
 <script lang="ts">
  import { ProgressRing } from '@skeletonlabs/skeleton-svelte';
-    let getOtp : boolean = $state(true);
+    let getOtp : boolean = $state(false);
     let loading : boolean = $state(false);
     let email : HTMLInputElement = $state();
     let email_val : string = $state("email@email.com");
@@ -22,6 +22,7 @@
                     getOtp = true; //OTP HAS BEEN SENT SUCCESSFULLY.
                     console.log("OTP has been sent");
                     loading = false
+                    countDownTimer(10);
                 },1000)
             }
         }
@@ -42,7 +43,7 @@
         }, 1000);
     }
 
-    countDownTimer(10);
+    
 </script>
 
 

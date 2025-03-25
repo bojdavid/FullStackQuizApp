@@ -10,14 +10,23 @@
      <form action="">
         <div>
             <label for="email">Email</label>
-            <input type="email" placeholder="Enter email" name="email">
+                <input type="email" placeholder="Enter email" name="email"
+                    class="w-full text-sm p-2 
+                    border-2 border-primary-500 rounded-md
+                    mb-5    
+                ">
         </div>
         <div>
             <label for="username">Username</label>
-            <input type="text" placeholder="Enter username" name="username">
+            <input type="text" placeholder="Enter username" name="username"
+                class="w-full text-sm p-2 
+                border-2 border-primary-500 rounded-md
+                mb-5    
+            ">
         </div>
-
-        <input type="submit" value="Submit">
+        <div class="flex justify-end">
+            <input type="submit" value="Submit"  class="btn preset-outlined-primary-500">
+        </div>
 
      </form>
 </div>
