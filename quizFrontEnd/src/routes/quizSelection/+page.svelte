@@ -117,11 +117,17 @@ for(let i = 0; i < subjects.length; i++){
 
 <main class="min-h-screen">
 
-    <header class="text-center pt-20">
-        <h2 class="text-4xl">
-            Select {selectQuestionRange?"Question":selectCategory?"Topic":"Subject"}
-        </h2>
-        <p class="text-xs"> You can only select one subject</p>
+    <header class="pt-20 
+                    flex flex-col
+                    min-w-xs w-full max-w-6xl 
+                    mx-auto">
+            <a href="./home" class="btn preset-filled-primary-500 w-[150px]"> Home</a>
+            <div class="mx-auto">
+                <h2 class="text-4xl">
+                    Select {selectQuestionRange?"Question":selectCategory?"Topic":"Subject"}
+                </h2>
+            <p class="text-xs"> You can only select one subject</p>
+            </div>
     </header>
     
     <div class="mx-auto  flex flex-col items-center justify-center my-20 ">
