@@ -22,7 +22,7 @@ import { goto } from "$app/navigation";
 
     let subjects : subject[] = data.subjects
 
-for(let i = 0; i < subjects.length; i++){
+for(let i:number = 0; i < subjects.length; i++){
     subjects[i].id = i;
 }
    
@@ -42,10 +42,10 @@ for(let i = 0; i < subjects.length; i++){
     //Styles for the Buttons
     let submitButtonClass :string = "btn preset-outlined-secondary-500 rounded-lg text-md p-4"
   
-    const pickSubject = (subj) => {
+    const pickSubject = (subj: subject): void => {
         selectedSubject = subj;
     }
-    const selectSubject = () => {
+    const selectSubject = (): void => {
         // Check if selectedSubject is empty
         if(selectedSubject == undefined){
             console.log("Please select a subject")
@@ -54,7 +54,7 @@ for(let i = 0; i < subjects.length; i++){
         }
     }
 
-    const addCategoryToSelection = (cat) =>{
+    const addCategoryToSelection = (cat: category) : void=>{
         //remove the category if its already selected
         if(selectedCategory.includes(cat)){
             console.log("category exists")
@@ -65,7 +65,7 @@ for(let i = 0; i < subjects.length; i++){
         console.log($state.snapshot(selectedCategory))
     }
 
-    const selectAllCategory = () =>{
+    const selectAllCategory = (): void =>{
         if(!allCategory){
             selectedCategory = [...selectedSubject.category];
             allCategory = true;
@@ -75,22 +75,22 @@ for(let i = 0; i < subjects.length; i++){
         }
     }
 
-    const doneSelectingCategory = () =>{
+    const doneSelectingCategory = ():void =>{
         if(selectedCategory.length == 0){
             alert("You need to select at least one category")
         }else{
-            for(let i = 0; i < selectedCategory.length; i++){
+            for(let i:number = 0; i < selectedCategory.length; i++){
                 questions_limit = questions_limit + selectedCategory[i].no_of_questions
             }
             selectQuestionRange = true;
         }
     }
 
-    const selectRange = (range) =>{
+    const selectRange = (range:number):void =>{
         selectedQuestionRange = range;
     }
 
-    const startQuiz = async () => {
+    const startQuiz = async () : Promise<void> => {
         let formData :FormData = new FormData();
         formData.append("subject", selectedSubject.subject);
         formData.append("Category", JSON.stringify(selectedCategory));
@@ -103,9 +103,9 @@ for(let i = 0; i < subjects.length; i++){
 
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
-    }else{
-        goto('/quiz')
     }
+        goto('/quiz')
+    
         
 
         //alert(`Subject: ${selectedSubject.subject} \n Category: ${selectedCategory.map(cat => cat.topic).join(", ")} \n Number Of Questions = ${selectedQuestionRange}`)

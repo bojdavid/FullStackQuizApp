@@ -7,7 +7,7 @@
     let remainingTime : number = $state();
     
     // Send Request to get OTP to the server
-    const sendOTP_request = () => {
+    const sendOTP_request = ():void => {
         // CHECKS IF THE EMAIL IS AN EMAIL, IF IT IS, IT SENDS A REQUEST TO THE SERVER
         if(email.value == ""){
             alert("Email cannot be empty")

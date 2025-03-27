@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { fly , fade} from 'svelte/transition';
 
     let {question, 
@@ -9,12 +9,18 @@ import { fly , fade} from 'svelte/transition';
         questionNum, 
         viewCorrectAns} = $props();
     
-    let active = $state("");
-   let options = $state([]);
+    interface QuizOption {
+            option: string;
+            text: string;
+            active: boolean;
+        }
+
+    let active: string = $state("");
+   let options : QuizOption[] = $state([]);
 
     // Update options when question or active changes
     $effect(() => {
-        options = [
+        options  = [
             {option:"A", text:question.OptionA, active: false},
             {option:"B", text:question.OptionB, active: false},
             {option:"C", text:question.OptionC, active: false},

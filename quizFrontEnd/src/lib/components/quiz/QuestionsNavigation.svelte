@@ -1,9 +1,9 @@
-<script>
-    let openState = $state(false);
+<script lang="ts">
+    let openState : boolean = $state(false);
 
     let {questions, questionNum, goToQuestion, viewCorrect} = $props();
     
-    let answeredQuestions = $state([]);
+    let answeredQuestions : number[] = $state([]);
     //let ansq  = $derived(questions.map(q => ({ isAnswered: q.answered, id: q.id })));
         
 

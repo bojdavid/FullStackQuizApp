@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import "../../styles/app.css";
 import QuizContainer from "$lib/components/quiz/QuizContainer.svelte";
 import QuestionsNavigation from "$lib/components/quiz/QuestionsNavigation.svelte";
@@ -7,31 +7,48 @@ import { Progress } from '@skeletonlabs/skeleton-svelte';
 
 //SAMPLE DATA - FETCH JSON DATA AND REPLACE DATA.QUESTIONS WITH RESPONSE.JSON
 let { data } = $props();
-let questions = data.questions
+
+interface QuizQuestion {
+  ID: number;
+  Question: string;
+  CorrectOption: string;
+  OptionA: string;
+  OptionB: string;
+  OptionC: string;
+  OptionD: string;
+  AnswerExplanation: string;  // Changed key to match valid TypeScript syntax
+  Category: string;
+  answered? : boolean;
+  view_correct_ans ?: boolean;
+  choice ?: string;
+  id ?: number;
+}
+
+let questions: QuizQuestion[] = data.questions
 
 
 
 // QUIZ VARIABLES
-let questionNum = $state(0);
-let viewCorrect = $state(false);
-let selectedAns = $state(true);
-let animateEndQuizbtn = $state(false);
-let hideItem = "hidden";
+let questionNum: number = $state(0);
+let viewCorrect: boolean = $state(false);
+let selectedAns: boolean = $state(true);
+let animateEndQuizbtn: boolean = $state(false);
+let hideItem: string = "hidden";
 
 // ADDITIONAL PROPERTIES FOR MANIPULATING QUIZ UI BETTER
-for(let i = 0; i < questions.length; i++){
+for(let i:number = 0; i < questions.length; i++){
     questions[i].answered = false;
     questions[i].view_correct_ans = false;
     questions[i].choice = '';
-    questions[i].id = i
+    questions[i].id = i;
     // console.log(questions[i])
 }
 
 // Transition variables
-let changedQuestion = $state(false);
+let changedQuestion : boolean = $state(false);
 
 
-const goToNextQuestion = () => {
+const goToNextQuestion = (): void => {
     console.log(changedQuestion)
     //Do not let the questions num go beyond the questions index as it increments
     if(questionNum < questions.length - 1){
@@ -49,7 +66,7 @@ const goToNextQuestion = () => {
     viewCorrect = false;
     }
 
-const goToPrevQuestion = () =>{
+const goToPrevQuestion = (): void =>{
     //Do not let the questions num go beyond the questions index as it decrements
     if(questionNum >= 0){
         questionNum--;
@@ -57,18 +74,18 @@ const goToPrevQuestion = () =>{
     viewCorrect = false
 }
 
-const viewCorrectAns = (question) => {
+const viewCorrectAns = (question : QuizQuestion): void => {
     question.view_correct_ans = true;
     viewCorrect=true;
     
 }
 
-const goToQuestion = (id) =>{
+const goToQuestion = (id:number): void =>{
     questionNum = id;
     viewCorrect=false;
 }
 
-const endQuiz = () => {
+const endQuiz = (): void => {
     let count = 0;
     for(let i = 0; i < questions.length; i++){
         if(questions[i].choice == questions[i].CorrectOption){
