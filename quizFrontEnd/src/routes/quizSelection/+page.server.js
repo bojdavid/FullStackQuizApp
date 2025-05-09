@@ -11,6 +11,6 @@ export function load({ params }) {
 export const actions = {
 	startQuiz_: async ({ cookies, request }) => {
 		const data = await request.formData();
-        console.log(data);
+        //console.log(data);
 	},
 }
