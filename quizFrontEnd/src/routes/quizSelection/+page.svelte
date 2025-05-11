@@ -127,12 +127,16 @@
     <div class="mx-auto">
       <h2 class="text-4xl">
         Select {selectQuestionRange
-          ? "Question"
+          ? "Questions"
           : selectCategory
             ? "Topic"
             : "Subject"}
       </h2>
-      <p class="text-xs">You can only select one subject</p>
+      <p class="text-xs">
+        {selectQuestionRange
+          ? "Select the number of questions you want to answer"
+          : "You can only select one subject"}
+      </p>
     </div>
   </header>
 

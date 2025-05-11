@@ -17,8 +17,8 @@
                     mx-auto
                     shadow-lg dark:shadow-primary-900 p-5"
   >
-    <h1 class="text-4xl">
-      Welcome User
+    <h1 class="text-4xl w-full flex justify-between">
+      Welcome BOJ
       <LightSwitch />
     </h1>
   </header>
