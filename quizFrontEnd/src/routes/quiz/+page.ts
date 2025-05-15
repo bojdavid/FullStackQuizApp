@@ -1,9 +1,10 @@
-import type { PageLoad } from './$types';
+//import type { PageLoad } from './$types';
 import { getQuizMeta } from "$lib/components/globalState.svelte";
 import allQuestions  from './quiz_questions.json'
 
+/*
 
-export const load: PageLoad = ({ params }) => {
+export const load = ({ params }) => {
 	let quizData = getQuizMeta();
 	
 	console.log(quizData.subject)
@@ -17,7 +18,7 @@ export const load: PageLoad = ({ params }) => {
 		return filteredQuestions;
 	}
 
-	return {
-		questionsData
-	};
+//	return {questionsData};
 };
+
+*/
