@@ -2,12 +2,8 @@
   import "../../styles/app.css";
   import LightSwitch from "$lib/components/LightSwitch.svelte";
 
-  import { goto } from "$app/navigation";
-
   let link_style: string =
     "btn preset-filled-primary-500 mb-4 p-5 text-xl font-bold w-md";
-
-  const startQuiz = () => {};
 </script>
 
 <div class="m-2 p-5 w-full">
@@ -24,9 +20,15 @@
   </header>
   <main class="flex justify-center items-center h-[700px]">
     <div class="flex flex-col items-start">
-      <a href="./quizSelection" class={link_style}> Start Quiz </a>
-      <a href="./quizSelection" class={link_style}> View Rankings </a>
-      <a href="./quizSelection" class={link_style}> User Stats </a>
+      <a href="./quizSelection" class={link_style} data-sveltekit-preload-data>
+        Start Quiz
+      </a>
+      <a href="./quizSelection" class={link_style} data-sveltekit-preload-data>
+        View Rankings
+      </a>
+      <a href="./quizSelection" class={link_style} data-sveltekit-preload-data>
+        User Stats
+      </a>
     </div>
   </main>
 </div>

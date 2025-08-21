@@ -6,6 +6,8 @@
   import { goto } from "$app/navigation";
   import { setQuizMeta } from "$lib/components/globalState.svelte";
 
+  import { getCategories } from "$lib/api/quiz";
+
   //sample data
   interface category {
     topic: string;
@@ -18,7 +20,7 @@
     id?: number;
   }
 
-  let { data } = $props();
+  let data = getCategories();
 
   let subjects: subject[] = data.subjects;
 
@@ -88,31 +90,8 @@
     selectedQuestionRange = range;
   };
 
-  const startQuiz = async (): Promise<void> => {
-    let formData: FormData = new FormData();
-    formData.append("subject", selectedSubject.subject);
-    formData.append("Category", JSON.stringify(selectedCategory));
-    formData.append("noOfQuestion", selectQuestionRange.toString());
-
-    let quizMeta = {
-      subject: selectedSubject.subject,
-      category: selectedCategory,
-      noOfQuestions: selectedQuestionRange,
-    };
-    setQuizMeta(quizMeta);
-
-    const response = await fetch("?/startQuiz_", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+  const startQuiz = () => {
     goto("/quiz");
-
-    //alert(`Subject: ${selectedSubject.subject} \n Category: ${selectedCategory.map(cat => cat.topic).join(", ")} \n Number Of Questions = ${selectedQuestionRange}`)
-    //location.reload();
   };
 </script>
 
