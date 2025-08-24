@@ -9,7 +9,7 @@
   let { data } = $props();
 
   import {} from "./quizExports.svelte";
-  import type { QuizQuestion } from "./page";
+  import type { QuizQuestion } from "./+page";
 
   let questions: QuizQuestion[] = data.questions;
 

@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+    --color-mint-500: oklch(0.72 0.11 178); 
+    --color-light-bg: #F0F8FF;
+    --color-light-main-text: #050A30;
+    --color-light-secondary-text: #000C66;
+    --color-light-primary-accent: #2563EB;
+    --color-light-tetiary-accent: #7EC8E3;
+    
+    --color-dark-bg: #050A30;
+    --color-dark-main-text:  #7EC8E3;
+    --color-dark-secondary-text: #F0F8FF;
+    --color-dark-primary-accent:  ##60A5FA;
+    --color-dark-secondary-accent:  #000C66;
+
+    --color-success: #28A745;
+    --color-error: #DC3545;
+    --color-warning: #FFC107;
+
+}
