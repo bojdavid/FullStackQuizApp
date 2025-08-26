@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-    --color-mint-500: oklch(0.72 0.11 178); 
     --color-light-bg: #F0F8FF;
     --color-light-main-text: #050A30;
     --color-light-secondary-text: #000C66;
