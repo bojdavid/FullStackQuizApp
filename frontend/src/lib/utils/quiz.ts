@@ -2,10 +2,19 @@ export const submitQuiz = () => {
     console.log("Submitted");
   };
  
-export const goToNextQuestion = () => {
-    console.log("Next Question");
+
+export const goToNextQuestion = (num : number) => {
+    num++;
   };
 
-export const goToPrevQuestion = () => {
-    console.log("prev Question");
+export const goToPrevQuestion = (num: number) => {
+    num--
   };
+
+export const viewQuestions = () => {
+  console.log("view questions")
+}
+
+export const quit = () => {
+  console.log("quit quiz")
+}

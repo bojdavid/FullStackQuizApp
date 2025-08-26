@@ -3,12 +3,13 @@ export interface Options{
     active: boolean;
 }
 
-export interface Question {
-    no: number;
-    question: string;
-    answer: string;
-    option1: string;
-    option2: string;
-    option3: string;
-    option4: string;
+
+  export type QuestionType = "mcq" | "true-false" | "flashcard";
+
+  export interface Question {
+    id: string;              // unique identifier
+    question: string;        // question text
+    options?: string[];      // options (used in multiple-choice & true-false)
+    answer: string;          // correct answer (string)
+    type: QuestionType;      // must be one of the allowed types
   }

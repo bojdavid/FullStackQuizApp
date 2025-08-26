@@ -12,7 +12,9 @@
     </button>
     <h1>Practice Quiz</h1>
   </div>
-  <div class="flex flex-col justify-center">
+  <div
+    class="flex flex-col justify-center text-light-main-text dark:text-dark-main-text"
+  >
     <LightSwitch size={iconSize} />
   </div>
 </div>
