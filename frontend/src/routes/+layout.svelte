@@ -10,7 +10,7 @@
 </svelte:head>
 
 <div
-  class=" bg-gradient-to-b from-light-bg to-light-tetiary-accent dark:from-dark-bg dark:to-dark-secondary-accent h-screen"
+  class=" bg-gradient-to-b from-light-bg to-light-tetiary-accent dark:from-dark-bg dark:to-dark-secondary-accent min-h-screen"
 >
   {@render children?.()}
 </div>

@@ -3,13 +3,6 @@ export const submitQuiz = () => {
   };
  
 
-export const goToNextQuestion = (num : number) => {
-    num++;
-  };
-
-export const goToPrevQuestion = (num: number) => {
-    num--
-  };
 
 export const viewQuestions = () => {
   console.log("view questions")

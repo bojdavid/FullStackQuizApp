@@ -8,15 +8,265 @@
     --color-light-secondary-text: #000C66;
     --color-light-primary-accent: #2563EB;
     --color-light-tetiary-accent: #7EC8E3;
-    
+
     --color-dark-bg: #050A30;
-    --color-dark-main-text:  #7EC8E3;
+    --color-dark-main-text: #7EC8E3;
     --color-dark-secondary-text: #F0F8FF;
-    --color-dark-primary-accent:  ##60A5FA;
-    --color-dark-secondary-accent:  #000C66;
+    --color-dark-primary-accent: #60A5FA;
+    --color-dark-secondary-accent: #000C66;
 
     --color-success: #28A745;
     --color-error: #DC3545;
     --color-warning: #FFC107;
 
+}
+
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Light Theme */
+:root {
+    --radius: 0.625rem;
+    /* Core backgrounds and surfaces */
+    --background: oklch(0.984 0.008 240);
+    /* #F0F8FF - Alice Blue background */
+    --foreground: oklch(0.176 0.098 264);
+    /* #050A30 - Deep navy main text */
+    --card: oklch(1 0 0);
+    /* Pure white for elevated surfaces */
+    --card-foreground: oklch(0.176 0.098 264);
+    /* #050A30 - Deep navy text on cards */
+
+    /* Popovers and overlays */
+    --popover: oklch(1 0 0);
+    /* Pure white */
+    --popover-foreground: oklch(0.176 0.098 264);
+    /* #050A30 - Deep navy */
+
+    /* Primary actions and brand colors */
+    --primary: oklch(0.527 0.131 264);
+    /* #2563EB - Primary blue */
+    --primary-foreground: oklch(1 0 0);
+    /* White text on primary */
+
+    /* Secondary elements */
+    --secondary: oklch(0.984 0.008 240);
+    /* #F0F8FF - Light background tint */
+    --secondary-foreground: oklch(0.235 0.135 264);
+    /* #000C66 - Secondary navy text */
+
+    /* Muted/subdued elements */
+    --muted: oklch(0.968 0.012 240);
+    /* Slightly darker than background */
+    --muted-foreground: oklch(0.456 0.089 264);
+    /* Mid-tone for muted text */
+
+    /* Accent highlights */
+    --accent: oklch(0.834 0.056 210);
+    /* #7EC8E3 - Tertiary light blue */
+    --accent-foreground: oklch(0.176 0.098 264);
+    /* Deep navy on accent */
+
+    /* Destructive/error states */
+    --destructive: oklch(0.577 0.245 27);
+    /* #DC3545 - Error red */
+    --destructive-foreground: oklch(1 0 0);
+    /* White text */
+
+    /* Success and warning states */
+    --success: oklch(0.646 0.222 145);
+    /* #28A745 - Success green */
+    --success-foreground: oklch(1 0 0);
+    /* White text */
+    --warning: oklch(0.828 0.189 84);
+    /* #FFC107 - Warning yellow */
+    --warning-foreground: oklch(0.176 0.098 264);
+    /* Dark text */
+
+    /* Borders and inputs */
+    --border: oklch(0.912 0.024 240);
+    /* Subtle border color */
+    --input: oklch(0.954 0.016 240);
+    /* Input background */
+    --ring: oklch(0.527 0.131 264);
+    /* Focus ring - matches primary */
+
+    /* Chart colors - harmonious with theme */
+    --chart-1: oklch(0.527 0.131 264);
+    /* Primary blue */
+    --chart-2: oklch(0.834 0.056 210);
+    /* Tertiary blue */
+    --chart-3: oklch(0.235 0.135 264);
+    /* Secondary navy */
+    --chart-4: oklch(0.646 0.222 145);
+    /* Success green */
+    --chart-5: oklch(0.828 0.189 84);
+    /* Warning yellow */
+
+    /* Sidebar specific */
+    --sidebar: oklch(0.996 0.004 240);
+    /* Very light background */
+    --sidebar-foreground: oklch(0.176 0.098 264);
+    /* Deep navy */
+    --sidebar-primary: oklch(0.527 0.131 264);
+    /* Primary blue */
+    --sidebar-primary-foreground: oklch(1 0 0);
+    /* White */
+    --sidebar-accent: oklch(0.984 0.008 240);
+    /* Light accent */
+    --sidebar-accent-foreground: oklch(0.235 0.135 264);
+    /* Secondary navy */
+    --sidebar-border: oklch(0.912 0.024 240);
+    /* Subtle border */
+    --sidebar-ring: oklch(0.527 0.131 264);
+    /* Focus ring */
+}
+
+/* Dark Theme */
+.dark {
+    /* Core backgrounds and surfaces */
+    --background: oklch(0.176 0.098 264);
+    /* #050A30 - Deep navy background */
+    --foreground: oklch(0.834 0.056 210);
+    /* #7EC8E3 - Light blue main text */
+    --card: oklch(0.235 0.135 264);
+    /* #000C66 - Secondary navy for cards */
+    --card-foreground: oklch(0.984 0.008 240);
+    /* #F0F8FF - Light text on cards */
+
+    /* Popovers and overlays */
+    --popover: oklch(0.235 0.135 264);
+    /* #000C66 - Secondary navy */
+    --popover-foreground: oklch(0.984 0.008 240);
+    /* #F0F8FF - Light text */
+
+    /* Primary actions - lighter in dark mode */
+    --primary: oklch(0.675 0.106 240);
+    /* #60A5FA - Lighter blue for dark mode */
+    --primary-foreground: oklch(0.176 0.098 264);
+    /* Dark navy text */
+
+    /* Secondary elements */
+    --secondary: oklch(0.295 0.120 264);
+    /* Slightly lighter than card */
+    --secondary-foreground: oklch(0.984 0.008 240);
+    /* Light text */
+
+    /* Muted/subdued elements */
+    --muted: oklch(0.295 0.120 264);
+    /* Mid-tone navy */
+    --muted-foreground: oklch(0.675 0.045 240);
+    /* Muted light text */
+
+    /* Accent highlights */
+    --accent: oklch(0.456 0.089 264);
+    /* Mid-tone for accent areas */
+    --accent-foreground: oklch(0.984 0.008 240);
+    /* Light text on accent */
+
+    /* Destructive/error states */
+    --destructive: oklch(0.577 0.245 27);
+    /* Same error red */
+    --destructive-foreground: oklch(1 0 0);
+    /* White text */
+
+    /* Success and warning states */
+    --success: oklch(0.646 0.222 145);
+    /* Success green */
+    --success-foreground: oklch(1 0 0);
+    /* White text */
+    --warning: oklch(0.828 0.189 84);
+    /* Warning yellow */
+    --warning-foreground: oklch(0.176 0.098 264);
+    /* Dark text */
+
+    /* Borders and inputs */
+    --border: oklch(0.456 0.089 264 / 25%);
+    /* Semi-transparent border */
+    --input: oklch(0.295 0.120 264);
+    /* Input background */
+    --ring: oklch(0.675 0.106 240);
+    /* Focus ring - matches primary */
+
+    /* Chart colors - adapted for dark mode */
+    --chart-1: oklch(0.675 0.106 240);
+    /* Primary light blue */
+    --chart-2: oklch(0.834 0.056 210);
+    /* Tertiary blue */
+    --chart-3: oklch(0.456 0.089 264);
+    /* Mid navy */
+    --chart-4: oklch(0.646 0.222 145);
+    /* Success green */
+    --chart-5: oklch(0.828 0.189 84);
+    /* Warning yellow */
+
+    /* Sidebar specific */
+    --sidebar: oklch(0.235 0.135 264);
+    /* #000C66 - Secondary navy */
+    --sidebar-foreground: oklch(0.984 0.008 240);
+    /* Light text */
+    --sidebar-primary: oklch(0.675 0.106 240);
+    /* Light blue primary */
+    --sidebar-primary-foreground: oklch(0.176 0.098 264);
+    /* Dark text */
+    --sidebar-accent: oklch(0.295 0.120 264);
+    /* Slightly lighter accent */
+    --sidebar-accent-foreground: oklch(0.984 0.008 240);
+    /* Light text */
+    --sidebar-border: oklch(0.456 0.089 264 / 25%);
+    /* Semi-transparent border */
+    --sidebar-ring: oklch(0.675 0.106 240);
+    /* Focus ring */ 
+}
+
+
+
+
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

@@ -2,23 +2,25 @@
   import { CircleCheckBig, Circle } from "@lucide/svelte";
   import type { Question, Options } from "$lib/types/quiz";
 
-  let sampleQuestion: Question = {
-    id: "q1",
-    question: "Which planet is known as the Red Planet?",
-    options: ["Earth", "Mars", "Jupiter", "Venus"],
-    answer: "Mars",
-    type: "mcq",
-  };
+  let { question } = $props();
 
-  let optionList: Options[] = sampleQuestion.options.map((opt) => ({
-    text: opt,
-    active: false,
-  }));
+  let optionList: Options[] = $state([]);
 
-  let selectedIndex = $state(-1);
+  $effect(() => {
+    optionList = question.options.map((opt: string) => ({
+      text: opt,
+      active: false,
+    }));
+  });
 
   const setActive = (i: number) => {
-    selectedIndex = i;
+    // reset all to false
+    optionList = optionList.map((opt, idx) => ({
+      ...opt,
+      active: idx === i, // only the clicked index becomes true
+    }));
+
+    question.choice = optionList[i].text;
   };
 
   const activeOptionStyle: string =
@@ -27,18 +29,20 @@
     " bg-light-bg dark:bg-dark-bg border-1 border-light-tetiary-accent dark:border-light-tetiary-accent";
 </script>
 
-<section>
-  <div class="w-full">
+<section class="min-h-[300px]">
+  <div class="w-full my-auto">
     <!-- Question-->
     <div class="text-[22px] font-semibold leading-none">
-      {sampleQuestion.question}
+      {question.question}
     </div>
 
     <!-- Option -->
     {#each optionList as option, i}
       <button
         class=" flex justify-between px-[10px] py-[11px] text-[20px] mt-[15px] font-light rounded-[9px] w-full hover:bg-light-tetiary-accent/40 transition ease-in-out duration-100
-                {i === selectedIndex ? activeOptionStyle : inactiveOptionStyle}
+                {question.choice == option.text
+          ? activeOptionStyle
+          : inactiveOptionStyle}
         "
         onclick={() => setActive(i)}
       >
@@ -47,14 +51,14 @@
 
         <!-- Check Box-->
         <span
-          class={i === selectedIndex
+          class={question.choice == option.text
             ? "text-light-primary-accent"
             : "text-light-tetiary-accent"}
         >
-          {#if i !== selectedIndex}
-            <Circle size={30} />
-          {:else}
+          {#if question.choice == option.text}
             <CircleCheckBig size={30} />
+          {:else}
+            <Circle size={30} />
           {/if}
         </span>
       </button>

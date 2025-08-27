@@ -12,4 +12,8 @@ export interface Options{
     options?: string[];      // options (used in multiple-choice & true-false)
     answer: string;          // correct answer (string)
     type: QuestionType;      // must be one of the allowed types
+
+    //Neccessary for state management
+    choice?: string //this is the answer the user chooses
+    
   }

@@ -2,14 +2,8 @@
   import type { Question } from "$lib/types/quiz";
   import { buttonClass } from "$lib/config/config";
 
+  let { question } = $props();
   let checkAnswer: boolean = $state(false);
-
-  const question: Question = {
-    id: "q18",
-    question: "Capital of Canada?",
-    answer: "Ottawa",
-    type: "flashcard",
-  };
 
   const viewAnswer = () => {
     checkAnswer = !checkAnswer;
