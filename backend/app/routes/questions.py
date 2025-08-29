@@ -111,7 +111,7 @@ def create_Singlequestion(questionData:QuestionCreate, db = Depends(getdb)):
         )
 
 @router.post("/createManyQuestions", status_code=201)
-def add_manyQuestions(questionsData: List[QuestionCreate],  db=Depends(getdb)):
+async def add_manyQuestions(questionsData: List[QuestionCreate],  db=Depends(getdb)):
     try:
         questions = []
         for question_ in questionsData:
@@ -121,7 +121,7 @@ def add_manyQuestions(questionsData: List[QuestionCreate],  db=Depends(getdb)):
 
 
             #CHECK IF THE QUESTION ALREADY EXISTS BY COMPARING THE QUESTIONS TO SEE IF THEY ARE THE SAME
-            question_exist = db['questions'].find_one({"Question": question["Question"] })
+            question_exist =  db['questions'].find_one({"Question": question["Question"] })
 
 
             if question_exist:

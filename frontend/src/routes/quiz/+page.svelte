@@ -74,8 +74,10 @@
     </aside>
     <header class="mx-auto mb-5">
       <NavBar />
-      <Progress value={question_index + 1} max={questions.length} class="" />
-      <ProgressBar />
+      {#if !submit}
+        <Progress value={question_index + 1} max={questions.length} class="" />
+        <ProgressBar />
+      {/if}
     </header>
     {#if submit}
       <Results {questions} />

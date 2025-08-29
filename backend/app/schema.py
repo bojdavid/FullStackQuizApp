@@ -25,7 +25,9 @@ class QuestionSchema(BaseModel):
     OptionC: str
     OptionD: str
     Answer_Explanation: str
-    Category: str
+    Subject: str
+    topic: str
+    choice: Optional[str] = None
     createdAt: datetime
     updatedAt: Optional[datetime] = None
 
@@ -37,8 +39,11 @@ class Question(BaseModel):
     OptionB: str
     OptionC: str
     OptionD: str
-    Answer_Explanation: str
-    Category: str
+    AnswerExplanation: str
+    Subject: str
+    topic: str
+    choice: Optional[str] = None
+    id: int
 
 class QuestionOut(Question):
     id : str  = Field(..., alias="_id") 
@@ -51,8 +56,10 @@ class QuestionCreate(BaseModel):
     OptionB: str
     OptionC: str
     OptionD: str
-    Answer_Explanation: str
-    Category: str
+    AnswerExplanation: str
+    Subject: str
+    topic: str
+    choice: Optional[str] = None
 
 
 class Ranking(BaseModel):
