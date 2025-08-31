@@ -19,7 +19,7 @@
             drop-shadow-xl/20 drop-shadow-dark-bg dark:drop-shadow-dark-main-text
             "
   >
-    {!checkAnswer ? question.question : question.answer}
+    {!checkAnswer ? question.prompt : question.answer}
   </div>
   <div class="flex justify-end mt-[27px]">
     <button class={buttonClass("primaryAccent")} onclick={viewAnswer}>

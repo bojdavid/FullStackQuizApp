@@ -25,7 +25,7 @@
               : 'border-2 border-light-tetiary-accent bg-light-bg dark:bg-dark-bg dark:border-dark-main-text'}"
         >
           {index + 1}.)
-          {question.question}
+          {question.prompt}
         </button>
       {/each}
     </div>

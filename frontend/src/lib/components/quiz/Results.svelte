@@ -64,7 +64,7 @@
   <!-- Answers -->
   <div>
     {#each questions as question, i}
-      {@render answer(question.question, question.answer, question.choice, i)}
+      {@render answer(question.prompt, question.answer, question.choice, i)}
     {/each}
   </div>
 </section>

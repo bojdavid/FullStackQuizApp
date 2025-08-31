@@ -3,8 +3,9 @@
   import LightSwitch from "../common/LightSwitch.svelte";
   import { goto } from "$app/navigation";
 
-  let iconSize: number = $state(40);
+  let { title } = $props();
 
+  let iconSize: number = $state(40);
   const goToDashboard = () => {
     console.log("works");
     goto("./");
@@ -16,7 +17,7 @@
     <button class="my-auto" onclick={() => goToDashboard()}>
       <ChevronLeft size={iconSize} />
     </button>
-    <h1>Practice Quiz</h1>
+    <h1>{title}</h1>
   </div>
   <div
     class="flex flex-col justify-center text-light-main-text dark:text-dark-main-text"

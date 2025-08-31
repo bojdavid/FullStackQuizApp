@@ -33,7 +33,7 @@
   <div class="w-full my-auto">
     <!-- Question-->
     <div class="text-[22px] font-semibold leading-none">
-      {question.question}
+      {question.prompt}
     </div>
 
     <!-- Option -->

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { PageProps } from "./$types";
+
   import MCQ from "$lib/components/quiz/MCQ.svelte";
   import Results from "$lib/components/quiz/Results.svelte";
   import FlashCard from "$lib/components/quiz/FlashCard.svelte";
@@ -10,15 +12,17 @@
 
   import { buttonClass } from "$lib/config/config";
 
-  import { questions as q } from "$lib/api/data";
-  import type { Question } from "$lib/types/quiz";
+  import { quiz1 as q } from "$lib/api/data";
+  import type { Question, Quiz } from "$lib/types/quiz";
   import { goto } from "$app/navigation";
 
   //Shadcn components
   import AlertDialogue from "$lib/components/common/AlertDialogue.svelte";
   import { Progress } from "$lib/components/ui/progress/index.js";
 
-  let questions: Question[] = q;
+  let { data } = $props();
+  console.log(data);
+  let questions: Question[] = data.quiz.questions;
   let question_index: number = $state(0);
   let submit: boolean = $state(false);
   let hideQuestionNavigations = $state(true);
@@ -73,7 +77,7 @@
       />
     </aside>
     <header class="mx-auto mb-5">
-      <NavBar />
+      <NavBar title={data.quiz.title} />
       {#if !submit}
         <Progress value={question_index + 1} max={questions.length} class="" />
         <ProgressBar />
