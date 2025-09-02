@@ -3,9 +3,9 @@
   import { userProfile as u } from "$lib/shared/shared.svelte";
 
   let imgSrc: string = ""; //profile;
-  let fn: string = u.firstname;
-  let ln: string = u.lastname;
-  let email: string = u.email;
+  let fn: string = $state(u.firstname);
+  let ln: string = $state(u.lastname);
+  let email: string = $state(u.email);
   let lastUpdated: string = "23 of jan 2025";
 </script>
 
