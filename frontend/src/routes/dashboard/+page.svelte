@@ -12,6 +12,11 @@
   const viewProgressFunction = (id: string) => {
     console.log(id);
   };
+  let data = $state([...summaryCardData]);
+  const deleteCard = (id: string) => {
+    data = data.filter((card) => (card.id === id ? false : true));
+    console.log(id);
+  };
 </script>
 
 <div>
@@ -20,11 +25,12 @@
     <h1 class="text-3xl">Summary</h1>
     <!-- Summary cards-->
     <div class="flex flex-wrap mt-10 gap-5">
-      {#each summaryCardData as card}
+      {#each data as card}
         <SummaryCard
           cardData={card}
           {viewProgressFunction}
           {takeQuizFunction}
+          {deleteCard}
         />
       {/each}
     </div>

@@ -1,6 +1,8 @@
 <script lang="ts">
   import { X } from "@lucide/svelte";
-  let { cardData, viewProgressFunction, takeQuizFunction } = $props();
+  let { cardData, viewProgressFunction, takeQuizFunction, deleteCard } =
+    $props();
+  let id: string = cardData.id;
   let title: string = cardData.quizTitle;
   let date: string = cardData.date;
   let accuracy: number = cardData.accuracy;
@@ -15,6 +17,7 @@
     type="button"
     class="absolute right-2 top-2 text-error hover:text-error/80 transition-colors"
     aria-label="Close"
+    onclick={() => deleteCard(id)}
   >
     <X size={20} />
   </button>

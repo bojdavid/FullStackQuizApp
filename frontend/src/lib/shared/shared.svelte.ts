@@ -14,3 +14,10 @@ export const quizGlobal = $state({
     id: ""
 })
 
+
+export const setUserProfile = (firstname: string, lastname:string, email:string, gender:string) =>{
+    userProfile.firstname = firstname
+    userProfile.lastname = lastname
+    userProfile.email = email
+    userProfile.gender = gender
+}
