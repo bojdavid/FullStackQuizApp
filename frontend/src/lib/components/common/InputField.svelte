@@ -15,17 +15,19 @@
     required = false,
   } = $props();
 
-  const INPUTSTYLE: string = `w-full px-4 py-3 border border-light-tetiary-accent rounded-md
-                 text-gray-900 placeholder-gray-500
-                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                 dark:text-dark-main-text dark:placeholder-dark-main-text/50 
-                 
-                  disabled:bg-gray-100 disabled:dark:bg-neutral-700
-                  disabled:text-gray-400 disabled:dark:text-neutral-500
-                  disabled:cursor-not-allowed
-                  disabled:border-gray-300 disabled:dark:border-neutral-600
-                  appearance-none  peer block
-                 `;
+  const INPUTSTYLE = `
+  w-full px-4 py-3 border border-light-tetiary-accent rounded-md
+  bg-transparent                     
+  text-gray-900 placeholder-gray-500
+  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+  dark:text-dark-main-text dark:placeholder-dark-main-text/50
+  appearance-none peer block
+
+  disabled:bg-gray-100 disabled:dark:bg-neutral-700
+  disabled:text-gray-400 disabled:dark:text-neutral-500
+  disabled:cursor-not-allowed
+  disabled:border-gray-300 disabled:dark:border-neutral-600
+`;
 
   const LabelStyle: string = `absolute text-sm text-light-secondary-text dark:text-light-tetiary-accent duration-300 
     transform -translate-y-4 scale-75 top-2 z-10 origin-[0] 

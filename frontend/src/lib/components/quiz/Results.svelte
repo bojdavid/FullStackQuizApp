@@ -5,7 +5,19 @@
     CircleXIcon,
     ChevronDown,
   } from "@lucide/svelte";
+
   let { questions } = $props();
+  let i: number = 0;
+  let score: number = $state(0);
+  for (i; i < questions.length; i++) {
+    if (questions[i].choice == questions[i].answer) {
+      score++;
+    } else {
+      continue;
+    }
+  }
+
+  console.log(questions);
 </script>
 
 {#snippet answer(
@@ -56,8 +68,8 @@
   <div
     class="text-dark-secondary-text dark:text-light-secondary-text border-[16px] border-light-primary-accent bg-dark-bg dark:bg-light-bg w-[300px] h-[300px] flex flex-col justify-center items-center mx-auto rounded-full mb-[27px]"
   >
-    <p class="text-[29px]">Your score</p>
-    <p class="text-[60px] font-bold">15/20</p>
+    <p class="text-[29px]">Accuracy</p>
+    <p class="text-[60px] font-bold">{score / questions.length} %</p>
     <p class="text-[32px] font-semibold">30mins</p>
   </div>
 

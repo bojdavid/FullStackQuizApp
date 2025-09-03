@@ -6,7 +6,7 @@
                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
                  dark:text-dark-main-text dark:placeholder-dark-main-text/50 
                  
-                  disabled:bg-gray-100 disabled:dark:bg-neutral-700
+                  disabled:bg-light-tetiary-accent/50 disabled:dark:bg-light-tetiary-accent/20
                   disabled:text-gray-400 disabled:dark:text-neutral-500
                   disabled:cursor-not-allowed
                   disabled:border-gray-300 disabled:dark:border-neutral-600

@@ -3,9 +3,6 @@
   import { userProfile as u } from "$lib/shared/shared.svelte";
 
   let imgSrc: string = ""; //profile;
-  let fn: string = $state(u.firstname);
-  let ln: string = $state(u.lastname);
-  let email: string = $state(u.email);
   let lastUpdated: string = "23 of jan 2025";
 </script>
 
@@ -19,8 +16,8 @@
         {#if imgSrc == ""}
           <!-- Display Initials-->
           <em class="text-7xl font-semibold">
-            {fn[0]}
-            {ln[0]}
+            {u.firstname[0]}
+            {u.lastname[0]}
           </em>
         {:else}
           <!-- Display Profile-->
@@ -30,17 +27,21 @@
       <!-- Actions: edit, delete profile picture-->
       <div class="flex flex-col items-center">
         <button class="text-warning">Edit Picture</button>
-        <button class="text-error"> Delete Picture</button>
+        {#if imgSrc == ""}
+          <button class="text-success"> Delete Picture</button>
+        {:else}
+          <button class="text-error"> Delete Picture</button>
+        {/if}
       </div>
     </div>
 
     <!-- Summary :name, email, last updated-->
     <div class="flex flex-col">
-      <h3 class="text-5xl font-semibold">{fn} {ln}</h3>
+      <h3 class="text-5xl font-semibold">{u.firstname} {u.lastname}</h3>
       <p
         class="mt-1 text-lg text-light-main-text/50 dark:text-dark-main-text/50"
       >
-        {email}
+        {u.email}
       </p>
       <p class="text-light-main-text/50 dark:text-dark-main-text/50">
         Last Updated: {lastUpdated}

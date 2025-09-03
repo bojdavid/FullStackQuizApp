@@ -11,7 +11,7 @@ interface ButtonColorType {
       " bg-dark-bg dark:bg-light-bg hover:bg-dark-bg/80 dark:hover:bg-light-bg/80 text-light-bg dark:text-dark-bg",
     success: " bg-success text-light-bg hover:bg-success/90",
     warning: "",
-    error: "bg-error text-light-bg hover:bg-success/90",
+    error: "bg-error text-light-bg hover:bg-error/90",
     primaryAccent: "bg-light-primary-accent text-light-bg ",
     no_bg:"text-light-main-text dark:text-dark-main-text",
   };

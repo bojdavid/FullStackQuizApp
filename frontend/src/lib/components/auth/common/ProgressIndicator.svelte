@@ -19,7 +19,7 @@
             ? step === steps[steps.length - 1]
               ? 'bg-green-600 text-white'
               : 'bg-blue-600 text-white' // Completed steps are colored
-            : 'bg-gray-200 text-gray-500'}"
+            : 'bg-gray-200 dark:bg-gray-500 text-gray-500 dark:text-gray-200'}"
         >
           {step === steps[steps.length - 1] ? "✓" : step}
 
@@ -36,15 +36,15 @@
         {#if index < steps.length - 1}
           <!-- The indicator line -->
           <div
-            class="h-2 w-8/10 transition-all duration-900 my-auto bg-gray-200 border border-2 border-gray-200"
+            class="h-2 w-8/10 transition-all duration-900 my-auto bg-gray-200 dark:bg-gray-500 border"
           >
             <div
-              class="h-1 w-0 transition-all duration-900 my-auto {currentStep >
+              class="h-2 w-0 transition-all duration-900 my-auto {currentStep >
               step
                 ? step === steps[steps.length - 2]
                   ? 'bg-green-600 w-full'
                   : 'bg-blue-600 w-full' // Color completed connections
-                : 'bg-gray-200 border border-2 border-gray-200'}"
+                : 'bg-gray-200 border border-2 border-gray-200 dark:border-gray-800'}"
             ></div>
           </div>
         {/if}
