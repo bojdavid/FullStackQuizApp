@@ -1,7 +1,7 @@
 <script lang="ts">
   import LightSwitch from "../common/LightSwitch.svelte";
   import profile from "$lib/assets/profile.jpeg";
-  import { userProfile as u } from "$lib/shared/shared.svelte";
+  import { userProfile as u } from "$lib/store/user.svelte";
 
   function getGreeting(): string {
     const now = new Date();

@@ -3,7 +3,7 @@
   import ProfileSummary from "$lib/components/dashboard/profile/ProfileSummary.svelte";
   import { buttonClass } from "$lib/config/config";
   import type { Profile } from "$lib/types/profile";
-  import { userProfile } from "$lib/shared/shared.svelte";
+  import { userProfile } from "$lib/store/user.svelte";
 
   let tempProfile: Profile = $state({
     firstname: userProfile.firstname,

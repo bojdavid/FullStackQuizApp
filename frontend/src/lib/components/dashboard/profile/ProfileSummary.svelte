@@ -1,6 +1,5 @@
 <script lang="ts">
-  import profile from "$lib/assets/profile.jpeg";
-  import { userProfile as u } from "$lib/shared/shared.svelte";
+  import { userProfile as u } from "$lib/store/user.svelte";
 
   let imgSrc: string = ""; //profile;
   let lastUpdated: string = "23 of jan 2025";
