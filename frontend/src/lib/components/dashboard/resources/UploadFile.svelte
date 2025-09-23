@@ -1,67 +1,13 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { buttonClass } from "$lib/config/config";
+  import { Upload, X, FileBadge } from "@lucide/svelte";
 
   let fileInput = $state<HTMLInputElement>();
   const pick = () => {
     fileInput?.click();
   };
 
-  let input: HTMLInputElement | null;
-  let preview: HTMLDivElement | null;
-
-  onMount(() => {
-    input = document.querySelector("input");
-    preview = document.querySelector(".preview");
-
-    if (input) {
-      input.addEventListener("change", updateImageDisplay);
-    }
-  });
-
-  function updateImageDisplay() {
-    if (!input || !preview) {
-      console.error("Required elements not found");
-      return;
-    }
-    while (preview.firstChild) {
-      preview.removeChild(preview.firstChild);
-    }
-
-    const curFiles = input.files;
-    if (curFiles?.length === 0) {
-      const para = document.createElement("p");
-      para.textContent = "No files currently selected for upload";
-      preview.appendChild(para);
-    } else {
-      const list = document.createElement("ol");
-      preview.appendChild(list);
-
-      if (curFiles) {
-        for (const file of curFiles) {
-          const listItem = document.createElement("li");
-          const para = document.createElement("p");
-          if (validFileType(file)) {
-            para.textContent = `File name ${file.name}, file size ${returnFileSize(
-              file.size
-            )}.`;
-            const image = document.createElement("img");
-            image.src = URL.createObjectURL(file);
-            image.alt = image.title = file.name;
-            image.classList.add("h-[200px]", "w-auto");
-
-            listItem.appendChild(image);
-            listItem.appendChild(para);
-          } else {
-            para.textContent = `File name ${file.name}: Not a valid file type. Update your selection.`;
-            listItem.appendChild(para);
-          }
-
-          list.appendChild(listItem);
-        }
-      }
-    }
-  }
   // You'll also need to type these helper functions:
   function validFileType(file: File): boolean {
     const fileTypes: string[] = [
@@ -75,6 +21,7 @@
       "image/tiff",
       "image/webp",
       "image/x-icon",
+      "application/pdf",
     ];
 
     return fileTypes.includes(file.type);
@@ -91,48 +38,131 @@
     return `${number} bytes`;
   }
 
-  const upload = () => {
-    if (input) {
-      console.log(input.files);
-    } else {
-      console.log("input is null");
+  let file = $state<File>();
+  let fileUrl: string = $state("");
+  let isLoading: boolean = $state(false);
+  let serverLoading: boolean = $state(true);
+  const updateImage = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      isLoading = true;
+      file = target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        if (e.target && typeof e.target.result === "string") {
+          fileUrl = e.target.result;
+          isLoading = false;
+          console.log("File loaded, URL length:", fileUrl.length); // Debug
+        }
+      };
+
+      reader.onerror = () => {
+        console.error("Failed to read file");
+        isLoading = false;
+      };
+
+      reader.readAsDataURL(file); // Read the file as a data URL
     }
+  };
+
+  const handleSubmit = (event: Event) => {
+    event.preventDefault();
+    serverLoading = true;
+    //simulate api call
+    setTimeout(() => {
+      serverLoading = false;
+    }, 3000);
+    console.log("file type -----", file?.type === "application/pdf");
   };
 </script>
 
-<form
-  method="post"
-  enctype="multipart/form-data"
-  class="flex flex-col gap-2 max-w-[500px]"
->
-  <h1 class="text-5xl">Upload File</h1>
-  <div class="">
-    <!--
-      Note: opacity is used to hide the file input instead of visibility: hidden or display: none, because assistive technology interprets the latter two styles to mean the file input isn't interactive.
-    -->
-    <label for="image_uploads" class="opacity-0">
-      <input
-        onchange={updateImageDisplay}
-        bind:this={fileInput}
-        type="file"
-        id="image_uploads"
-        name="image_uploads"
-        accept=".jpg, .jpeg, .png"
-        multiple
+{#snippet fileDisplay(file: File, inContainer: boolean = false)}
+  <div
+    class="{inContainer ? '' : serverLoading ? 'grayscale opacity-50' : ''} "
+  >
+    {#if file.type.startsWith("image/")}
+      <img
+        src={fileUrl}
+        alt="file upload"
+        srcset=""
+        class="{inContainer ? 'w-60 mx-auto' : 'w-20'} h-auto"
       />
-    </label>
-    <button type="button" onclick={pick} class={buttonClass("success")}>
-      Select file
-    </button>
+    {:else if file.type === "application/pdf"}
+      <FileBadge size={inContainer ? "30" : "100"} />
+    {:else}
+      <p>Invalid file type</p>
+    {/if}
+    <div class="{inContainer ? 'text-xs' : 'text-md'} text-left">
+      <p class="max-w-[300px] text-wrap">
+        File name - {file.name}
+      </p>
+      <p>
+        File size - {returnFileSize(file.size)}.
+      </p>
+    </div>
   </div>
-  <div class="preview">
-    <p>No files currently selected for upload</p>
-  </div>
-  <div class="">
-    <button class={buttonClass}>Submit</button>
-  </div>
-</form>
+{/snippet}
 
-<button class={buttonClass("warning")} onclick={() => upload()}>
-  upload test
-</button>
+<section class="flex">
+  <div class="flex-1">
+    <form
+      onsubmit={handleSubmit}
+      method="post"
+      enctype="multipart/form-data"
+      class="flex flex-col gap-2 w-fit px-[25px] py-[9px] border-2 border-light-tetiary-accent border-dashed rounded-xl text-center bg-light-bg dark:bg-dark-bg"
+    >
+      <h1 class="text-5xl font-semibold">Upload File</h1>
+      <p>Upload a note to g enerate questions</p>
+      <div class="relative mx-auto">
+        <!--
+          Note: opacity is used to hide the file input instead of visibility: hidden or display: none, because assistive technology interprets the latter two styles to mean the file input isn't interactive.
+        -->
+        <label for="image_uploads" class="opacity-0 absolute">
+          <input
+            onchange={updateImage}
+            bind:this={fileInput}
+            type="file"
+            id="image_uploads"
+            name="image_uploads"
+            accept="image/jpeg,image/png,application/pdf"
+            required
+          />
+        </label>
+        <button
+          type="button"
+          onclick={pick}
+          class="{buttonClass('success')} mx-auto"
+        >
+          Select file
+        </button>
+      </div>
+      <div class="mx-auto text-light-tetiary-accent">
+        {#if file}
+          {#if isLoading}
+            loading file
+          {:else if file}
+            {@render fileDisplay(file, true)}
+          {:else}
+            <p>no file has been uploaded</p>
+          {/if}
+        {:else}
+          <Upload size="200" strokeWidth={0.8} />
+        {/if}
+      </div>
+      <div class="preview__"></div>
+      <div class="text-light-tetiary-accent">
+        <button class={buttonClass("ordinary")} type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+  <div class="flex-1">
+    {#if isLoading}
+      loading file
+    {:else if file}
+      {@render fileDisplay(file)}
+    {:else}
+      <p>no file has been uploaded</p>
+    {/if}
+  </div>
+</section>
