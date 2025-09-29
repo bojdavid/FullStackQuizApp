@@ -7,9 +7,7 @@
 
 {#if authType == "login"}
   <div class="w-fit mx-auto text-center">
-    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-      Sign Into Your Account
-    </h1>
+    <h1 class="">Sign Into Your Account</h1>
     <p class="mt-2">
       Don't have an account?
       <button class="text-light-primary-accent" onclick={changeToSignUp}
@@ -19,9 +17,7 @@
   </div>
 {:else if authType == "signup"}
   <div class="w-fit mx-auto text-center">
-    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-      Create an Account
-    </h1>
+    <h1 class="">Create an Account</h1>
     <p class="mt-2">
       Already have an account?
       <button class="text-light-primary-accent" onclick={changeToLogin}

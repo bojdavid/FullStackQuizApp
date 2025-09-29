@@ -16,7 +16,7 @@
 
 <div class="flex w-full gap-0">
   <section
-    class=" xl:min-h-[832px] h-screen max-h-[1000px] w-full min-w-[200px] max-w-[400px] bg-light-bg dark:bg-dark-bg pr-5 relative shadow-lg p-3 md:sticky md:top-0 overflow-y-auto hidden md:block"
+    class=" xl:min-h-[832px] h-screen max-h-[1000px] w-full min-w-[200px] max-w-[400px] bg-light-bg dark:bg-dark-bg pr-5 relative shadow-lg p-3"
   >
     <button class="absolute right-2 md:hidden" onclick={closeSideBar}>
       <X size={40} />

@@ -23,11 +23,11 @@
   </button>
 
   <!-- Title -->
-  <header class="text-2xl font-bold mb-5">{title}</header>
+  <h4 class=" font-semibold mb-5 text-center">{title}</h4>
 
   <!-- Stats -->
   <section class="flex-1 text-sm">
-    <h4 class="text-center text-lg font-bold mb-2">Last Attempt</h4>
+    <h5 class="text-center text-lg font-medium mb-2">Last Attempt</h5>
     <ul class="space-y-1">
       <li>
         Date: <span class="font-bold">{date}</span>

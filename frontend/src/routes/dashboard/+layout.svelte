@@ -23,7 +23,7 @@
       <aside
         class="w-full ease-in-out transform transition-all duration-500 {openSideBar
           ? ' -translate-x-full opacity-0  '
-          : ' translate-x-0 opacity-100'} absolute overflow-y-auto z-50"
+          : ' translate-x-0 opacity-100 fixed'} absolute overflow-y-auto z-50"
       >
         <AppSidebar {closeSideBar} />
       </aside>
@@ -33,9 +33,11 @@
     <!-- End of side bar for small screens-->
 
     <!-- Side Bar-->
-    <div class="hidden md:block w-[300px]">
-      <AppSidebar {closeSideBar} />
-    </div>
+    <aside class="w-[400px]">
+      <div class="hidden md:block w-[300px] fixed inset-y-0 left-0 z-50">
+        <AppSidebar {closeSideBar} />
+      </div>
+    </aside>
     <!-- End Of Sidebar-->
 
     <div class="flex flex-col w-full px-5">

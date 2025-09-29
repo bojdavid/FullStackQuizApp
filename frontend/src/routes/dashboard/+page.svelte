@@ -12,9 +12,17 @@
   const viewProgressFunction = (id: string) => {
     console.log(id);
   };
+
   let data = $state([...summaryCardData]);
   const deleteCard = (id: string) => {
-    data = data.filter((card) => (card.id === id ? false : true));
+    //data = data.filter((card) => (card.id === id ? false : true));
+
+    setTimeout(() => {
+      // Update the state with the filtered data
+      data = data.filter((card) => card.id !== id);
+      console.log(id);
+    }, 2000); // Simulate a 2-second delay
+
     console.log(id);
   };
 </script>
@@ -22,7 +30,7 @@
 <div>
   <!-- Summary-->
   <section class="mt-10">
-    <h1 class="text-3xl">Summary</h1>
+    <h2 class="">Summary</h2>
     <!-- Summary cards-->
     <div class="flex flex-wrap mt-10 gap-5">
       {#each data as card}

@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { buttonClass } from "$lib/config/config";
   import { Upload, X, FileBadge } from "@lucide/svelte";
+  import UploadedFiles from "./UploadedFiles.svelte";
 
   let fileInput = $state<HTMLInputElement>();
   const pick = () => {
@@ -102,6 +103,9 @@
       </p>
     </div>
   </div>
+  {#if !inContainer}
+    <p class=" {serverLoading ? 'text-warning' : 'hidden'}">Submit file</p>
+  {/if}
 {/snippet}
 
 <section class="flex">
@@ -112,7 +116,7 @@
       enctype="multipart/form-data"
       class="flex flex-col gap-2 w-fit px-[25px] py-[9px] border-2 border-light-tetiary-accent border-dashed rounded-xl text-center bg-light-bg dark:bg-dark-bg"
     >
-      <h1 class="text-5xl font-semibold">Upload File</h1>
+      <h2 class=" font-semibold">Upload File</h2>
       <p>Upload a note to g enerate questions</p>
       <div class="relative mx-auto">
         <!--
@@ -157,12 +161,17 @@
     </form>
   </div>
   <div class="flex-1">
-    {#if isLoading}
-      loading file
-    {:else if file}
-      {@render fileDisplay(file)}
-    {:else}
-      <p>no file has been uploaded</p>
-    {/if}
+    <div>
+      {#if isLoading}
+        loading file
+      {:else if file}
+        {@render fileDisplay(file)}
+      {:else}
+        <p>no file has been uploaded</p>
+      {/if}
+    </div>
   </div>
 </section>
+<div class="mt-10">
+  <UploadedFiles />
+</div>
