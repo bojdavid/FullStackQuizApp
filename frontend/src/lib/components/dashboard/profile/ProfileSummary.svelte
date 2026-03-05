@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { userProfile as u } from "$lib/store/user.svelte.ts";
+  import { userProfile as u } from "$lib/store/user.svelte";
   import { Camera, Trash2, Calendar, Mail } from "@lucide/svelte";
   import profile from "$lib/assets/profile.jpeg";
 

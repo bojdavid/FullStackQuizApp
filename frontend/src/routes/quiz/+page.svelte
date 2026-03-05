@@ -12,7 +12,8 @@
 
   import { buttonClass } from "$lib/config/config";
 
-  import { quiz1 as q } from "$lib/api/data";
+  import { saveQuizResult } from "$lib/api/quizResult";
+  import { quizSession, stopTimer } from "$lib/store/quizSession.svelte";
   import type { Question, Quiz } from "$lib/types/quiz";
   import { goto } from "$app/navigation";
 
@@ -44,11 +45,29 @@
     viewQuestions();
   };
 
-  const submitQuiz = () => {
+  const submitQuiz = async () => {
+    stopTimer();
+
+    // Calculate final score
+    const score = questions.reduce((acc, q) => {
+      return q.choice === q.answer ? acc + 1 : acc;
+    }, 0);
+
+    // Save to simulated API
+    await saveQuizResult({
+      quizId: data.quiz.id || "current",
+      score,
+      totalQuestions: questions.length,
+      timeSpentSeconds: quizSession.secondsElapsed,
+      questions: JSON.parse(JSON.stringify(questions)), // Deep copy to avoid reference issues
+      timestamp: new Date().toISOString(),
+    });
+
     submit = true;
   };
 
   const quit_quiz = () => {
+    stopTimer();
     goto("./dashboard");
   };
 
@@ -61,10 +80,10 @@
   <div class="h-full">
     <!-- Overlay for Sidebar -->
     {#if !hideQuestionNavigations}
-      <div 
-        class="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 transition-opacity" 
+      <div
+        class="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 transition-opacity"
         onclick={viewQuestions}
-        onkeydown={(e) => e.key === 'Escape' && viewQuestions()}
+        onkeydown={(e) => e.key === "Escape" && viewQuestions()}
         role="button"
         tabindex="0"
         aria-label="Close navigation"
@@ -91,25 +110,35 @@
         {#if !submit}
           <div class="mt-6 flex flex-col gap-2">
             <div class="flex justify-between items-end">
-              <span class="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Progress</span>
-              <span class="text-sm font-bold text-primary">{Math.round(((question_index + 1) / questions.length) * 100)}%</span>
+              <span
+                class="text-sm font-semibold text-muted-foreground uppercase tracking-widest"
+                >Progress</span
+              >
+              <span class="text-sm font-bold text-primary"
+                >{Math.round(
+                  ((question_index + 1) / questions.length) * 100,
+                )}%</span
+              >
             </div>
-            <Progress value={((question_index + 1) / questions.length) * 100} class="h-2" />
+            <Progress
+              value={((question_index + 1) / questions.length) * 100}
+              class="h-2"
+            />
           </div>
         {/if}
       </header>
-      
+
       {#if submit}
-        <Results {questions} />
+        <Results quizId={data.quiz.id} />
       {:else}
-        <div
-          class="w-full flex flex-col min-h-[500px]"
-        >
+        <div class="w-full flex flex-col min-h-[500px]">
           <!-- Top Controls (Timer, Nav Toggle) -->
-          <div class="flex justify-between items-center mb-8 bg-muted/40 p-4 rounded-xl border border-border">
+          <div
+            class="flex justify-between items-center mb-8 bg-muted/40 p-4 rounded-xl border border-border"
+          >
             <Timer />
-            <button 
-              class="flex items-center gap-2 text-sm font-bold text-primary hover:text-primary/80 transition-colors bg-primary/10 px-4 py-2 rounded-lg" 
+            <button
+              class="flex items-center gap-2 text-sm font-bold text-primary hover:text-primary/80 transition-colors bg-primary/10 px-4 py-2 rounded-lg"
               onclick={viewQuestions}
             >
               <i class="fa-solid fa-list-ul"></i>
@@ -122,10 +151,14 @@
             class="text-[16px] mb-6 flex justify-between items-center leading-none font-bold text-foreground"
           >
             <div class="flex items-center gap-3">
-              <div class="bg-primary/20 text-primary w-10 h-10 rounded-full flex items-center justify-center border border-primary/30">
+              <div
+                class="bg-primary/20 text-primary w-10 h-10 rounded-full flex items-center justify-center border border-primary/30"
+              >
                 {question_index + 1}
               </div>
-              <span class="text-muted-foreground font-medium">of {questions.length}</span>
+              <span class="text-muted-foreground font-medium"
+                >of {questions.length}</span
+              >
             </div>
 
             <div class="text-error">
@@ -148,14 +181,18 @@
               <MCQ question={questions[question_index]} />
             {:else}
               <div class="glass-card p-8 rounded-xl text-center">
-                <i class="fa-solid fa-triangle-exclamation text-4xl text-warning mb-4"></i>
+                <i
+                  class="fa-solid fa-triangle-exclamation text-4xl text-warning mb-4"
+                ></i>
                 <p class="font-bold">Unknown question type encountered.</p>
               </div>
             {/if}
           </div>
 
           <!-- Actions Footer -->
-          <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-8 pt-6 border-t border-border">
+          <div
+            class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-8 pt-6 border-t border-border"
+          >
             {#if question_index === questions.length - 1}
               <div class="w-full sm:w-auto order-1 sm:order-none">
                 <AlertDialogue
@@ -167,7 +204,9 @@
               </div>
             {:else}
               <!-- Hidden spacer for flexbox alignment on non-last questions -->
-              <div class="w-full sm:w-auto order-1 sm:order-none hidden sm:block opacity-0 pointer-events-none">
+              <div
+                class="w-full sm:w-auto order-1 sm:order-none hidden sm:block opacity-0 pointer-events-none"
+              >
                 <button class={buttonClass("ordinary")}>Spacer</button>
               </div>
             {/if}
@@ -175,28 +214,37 @@
             <!-- Navigation Box -->
             <div class="flex gap-3 w-full sm:w-auto">
               <button
-                class="flex-1 sm:flex-none flex justify-center items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all {question_index === 0 ? 'bg-muted text-muted-foreground/50 cursor-not-allowed' : 'bg-muted text-foreground hover:bg-muted/80 border border-border'}"
+                class="flex-1 sm:flex-none flex justify-center items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all {question_index ===
+                0
+                  ? 'bg-muted text-muted-foreground/50 cursor-not-allowed'
+                  : 'bg-muted text-foreground hover:bg-muted/80 border border-border'}"
                 onclick={() => goToPrevQuestion()}
-                disabled={question_index === 0}>
+                disabled={question_index === 0}
+              >
                 <i class="fa-solid fa-arrow-left"></i> Previous
               </button>
-              
+
               <button
-                class="flex-1 sm:flex-none flex justify-center items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all {question_index === questions.length - 1 ? 'bg-muted text-muted-foreground/50 cursor-not-allowed' : 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_15px_rgba(var(--color-primary-500),0.3)]'}"
+                class="flex-1 sm:flex-none flex justify-center items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all {question_index ===
+                questions.length - 1
+                  ? 'bg-muted text-muted-foreground/50 cursor-not-allowed'
+                  : 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_15px_rgba(var(--color-primary-500),0.3)]'}"
                 onclick={() => goToNextQuestion()}
-                disabled={question_index === questions.length - 1}>
+                disabled={question_index === questions.length - 1}
+              >
                 Next <i class="fa-solid fa-arrow-right"></i>
               </button>
             </div>
-            
+
             <!-- Mobile submit button fallback -->
-            {#if question_index === questions.length - 1}
-              <div class="w-full block sm:hidden">
-                <button class="w-full bg-success text-success-foreground font-bold py-3 rounded-xl" onclick={submitQuiz}>
-                  Finish & Submit
-                </button>
-              </div>
-            {/if}
+            <div class="w-full block sm:hidden">
+              <button
+                class="w-full bg-success text-success-foreground font-bold py-3 rounded-xl"
+                onclick={submitQuiz}
+              >
+                Finish & Submit
+              </button>
+            </div>
           </div>
         </div>
       {/if}

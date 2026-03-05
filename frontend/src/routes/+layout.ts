@@ -1,7 +1,6 @@
-import type { PageLoad } from './$types';
+import type { LayoutLoad } from './$types';
 
-export const load: PageLoad = ({ params, locals }) => {
-  //console.log(locals)
+export const load: LayoutLoad = ({ params }) => {
   return {
     user: "locals.user",
   };

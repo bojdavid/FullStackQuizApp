@@ -2,9 +2,9 @@
   import SummaryCard from "$lib/components/dashboard/home/SummaryCard.svelte";
   import UserStats from "$lib/components/dashboard/home/UserStats.svelte";
   import RankingsPreview from "$lib/components/dashboard/home/RankingsPreview.svelte";
-  import { summaryCardData } from "$lib/api/summaryData";
   import { goto } from "$app/navigation";
   import { quizGlobal } from "$lib/shared/shared.svelte";
+  import { onMount } from "svelte";
 
   const takeQuizFunction = (id: string) => {
     quizGlobal.id = id;
@@ -14,7 +14,13 @@
     console.log(id);
   };
 
-  let data = $state([...summaryCardData]);
+  let data = $state<any[]>([]);
+
+  onMount(async () => {
+    const res = await fetch("/api/summaryData");
+    data = await res.json();
+  });
+
   const deleteCard = (id: string) => {
     data = data.filter((card) => card.id !== id);
   };
@@ -40,10 +46,15 @@
           <i class="fa-solid fa-layer-group text-primary"></i>
           Your Quizzes
         </h2>
-        <p class="text-sm text-muted-foreground mt-1">Generated quizzes ready to be taken.</p>
+        <p class="text-sm text-muted-foreground mt-1">
+          Generated quizzes ready to be taken.
+        </p>
       </div>
-      
-      <a href="/dashboard/upload" class="glass-card bg-primary/20 hover:bg-primary/30 text-primary border-primary/30 px-4 py-2 rounded-lg font-medium flex items-center gap-2">
+
+      <a
+        href="/dashboard/upload"
+        class="glass-card bg-primary/20 hover:bg-primary/30 text-primary border-primary/30 px-4 py-2 rounded-lg font-medium flex items-center gap-2"
+      >
         <i class="fa-solid fa-plus"></i>
         New Custom Quiz
       </a>
@@ -61,15 +72,23 @@
         {/each}
       </div>
     {:else}
-      <div class="glass-card rounded-xl border border-dashed border-border p-12 flex flex-col items-center justify-center text-center">
-        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+      <div
+        class="glass-card rounded-xl border border-dashed border-border p-12 flex flex-col items-center justify-center text-center"
+      >
+        <div
+          class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4"
+        >
           <i class="fa-solid fa-folder-open text-2xl text-primary"></i>
         </div>
         <h4 class="text-xl font-bold mb-2">No Quizzes Found</h4>
         <p class="text-muted-foreground mb-6 max-w-sm">
-          You haven't generated any quizzes yet. Upload your notes to get started!
+          You haven't generated any quizzes yet. Upload your notes to get
+          started!
         </p>
-        <a href="/dashboard/upload" class="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 rounded-lg font-medium transition-colors">
+        <a
+          href="/dashboard/upload"
+          class="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 rounded-lg font-medium transition-colors"
+        >
           Upload Notes
         </a>
       </div>

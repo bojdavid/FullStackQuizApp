@@ -1,13 +1,27 @@
 <script lang="ts">
-  let hours: number = 1;
-  let minutes: number = 55;
-  let seconds: number = 30;
+  import { onMount, onDestroy } from "svelte";
+  import {
+    quizSession,
+    startTimer,
+    stopTimer,
+    resetTimer,
+    formatTime,
+  } from "$lib/store/quizSession.svelte";
+
+  onMount(() => {
+    resetTimer();
+    startTimer();
+  });
+
+  onDestroy(() => {
+    stopTimer();
+  });
 </script>
 
 <section>
   <div
-    class="px-[23px] text-[22px] border-2 rounded-lg w-fit font-bold text-warning border-warning"
+    class="px-[23px] py-1 text-[22px] border-2 rounded-lg w-fit font-bold text-warning border-warning bg-warning/5"
   >
-    {hours}<span> : </span>{minutes}<span> : </span>{seconds}
+    {formatTime(quizSession.secondsElapsed)}
   </div>
 </section>

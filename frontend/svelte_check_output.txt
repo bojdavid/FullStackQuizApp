@@ -1,0 +1,104 @@
+
+> frontend@0.0.1 check
+> svelte-kit sync && svelte-check --tsconfig ./tsconfig.json
+
+Loading svelte-check in workspace: /Users/boj/Desktop/SelfLearning/webdev/Projects/SvelteProjects/QuizApp/frontend
+Getting Svelte diagnostics...
+
+/Users/boj/Desktop/SelfLearning/webdev/Projects/SvelteProjects/QuizApp/frontend/src/routes/+layout.ts:1:15
+Error: Module '"./$types"' has no exported member 'PageLoad'. 
+import type { PageLoad } from './$types';
+
+/Users/boj/Desktop/SelfLearning/webdev/Projects/SvelteProjects/QuizApp/frontend/src/routes/+layout.ts:3:34
+Error: Binding element 'params' implicitly has an 'any' type. 
+
+export const load: PageLoad = ({ params, locals }) => {
+  //console.log(locals)
+
+/Users/boj/Desktop/SelfLearning/webdev/Projects/SvelteProjects/QuizApp/frontend/src/routes/+layout.ts:3:42
+Error: Binding element 'locals' implicitly has an 'any' type. 
+
+export const load: PageLoad = ({ params, locals }) => {
+  //console.log(locals)
+
+/Users/boj/Desktop/SelfLearning/webdev/Projects/SvelteProjects/QuizApp/frontend/src/lib/components/dashboard/profile/ProfileSummary.svelte:2:36
+Error: An import path can only end with a '.ts' extension when 'allowImportingTsExtensions' is enabled. (ts)
+<script lang="ts">
+  import { userProfile as u } from "$lib/store/user.svelte.ts";
+  import { Camera, Trash2, Calendar, Mail } from "@lucide/svelte";
+
+/Users/boj/Desktop/SelfLearning/webdev/Projects/SvelteProjects/QuizApp/frontend/src/lib/components/dashboard/resources/QuizCard.svelte:34:9
+Warn: `<div>` with a mouseleave handler must have an ARIA role
+https://svelte.dev/e/a11y_no_static_element_interactions (svelte)
+      {#if showMenu}
+        <div 
+          class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-xl z-10 py-2"
+          onmouseleave={() => showMenu = false}
+        >
+          <button 
+            onclick={() => { onDelete(quiz.id); showMenu = false; }}
+            class="w-full text-left px-4 py-2 text-sm text-destructive hover:bg-destructive/10 flex items-center gap-2 transition-colors"
+          >
+            <Trash2 size={16} />
+            Delete Quiz
+          </button>
+        </div>
+      {/if}
+
+/Users/boj/Desktop/SelfLearning/webdev/Projects/SvelteProjects/QuizApp/frontend/src/lib/components/dashboard/resources/ResourceUpload.svelte:101:5
+Warn: Visible, non-interactive elements with a click event must be accompanied by a keyboard event handler. Consider whether an interactive element such as `<button type="button">` or `<a>` might be more appropriate
+https://svelte.dev/e/a11y_click_events_have_key_events (svelte)
+  {:else}
+    <div
+      role="button"
+      tabindex="0"
+      class="relative group border-2 border-dashed rounded-2xl p-12 transition-all duration-300 flex flex-col items-center justify-center gap-4 cursor-pointer
+        {isDragging ? 'border-primary bg-primary/5 scale-[1.02]' : 'border-border/50 hover:border-primary/50 hover:bg-muted/50'}"
+      ondragover={handleDragOver}
+      ondragleave={handleDragLeave}
+      ondrop={handleDrop}
+      onclick={pick}
+    >
+      <input
+        type="file"
+        bind:this={fileInput}
+        onchange={updateFile}
+        accept="image/jpeg,image/png,application/pdf"
+        class="hidden"
+      />
+
+      {#if file}
+        <div class="w-full flex flex-col items-center" in:fade>
+          <div class="relative w-32 h-32 rounded-xl overflow-hidden shadow-2xl mb-4 border border-border">
+            {#if file.type.startsWith('image/')}
+               <img src={fileUrl} alt="Preview" class="w-full h-full object-cover" />
+            {:else}
+              <div class="w-full h-full bg-accent/20 flex items-center justify-center text-accent">
+                <FileText size={64} />
+              </div>
+            {/if}
+            <button
+              onclick={(e) => { e.stopPropagation(); removeFile(); }}
+              class="absolute top-1 right-1 bg-destructive text-destructive-foreground p-1 rounded-full shadow-lg hover:scale-110 transition-transform"
+            >
+              <X size={16} />
+            </button>
+          </div>
+          <div class="text-center">
+            <p class="font-medium text-foreground truncate max-w-xs">{file.name}</p>
+            <p class="text-sm text-muted-foreground">{formatFileSize(file.size)}</p>
+          </div>
+        </div>
+      {:else}
+        <div class="p-6 bg-primary/10 rounded-full text-primary group-hover:scale-110 transition-transform duration-300">
+          <Upload size={48} />
+        </div>
+        <div class="text-center">
+          <p class="text-lg font-medium text-foreground">Click or drag file to upload</p>
+          <p class="text-sm text-muted-foreground mt-1">PDF, PNG, JPG (max 10MB)</p>
+        </div>
+      {/if}
+    </div>
+
+====================================
+svelte-check found 4 errors and 2 warnings in 4 files
