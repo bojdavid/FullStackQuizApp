@@ -1,48 +1,71 @@
 <script lang="ts">
   import AppSidebar from "$lib/components/dashboard/AppSidebar.svelte";
   import NavBar from "$lib/components/dashboard/NavBar.svelte";
-  import { page } from "$app/state";
+  import { Menu } from "@lucide/svelte";
+  import { fade, fly } from "svelte/transition";
 
   let { children } = $props();
 
-  let openSideBar = $state(true);
+  let isSidebarOpen = $state(false);
 
-  const closeSideBar = () => {
-    openSideBar = !openSideBar;
-    console.log(openSideBar);
+  const toggleSidebar = () => {
+    isSidebarOpen = !isSidebarOpen;
   };
-  //  console.log(page);
+
+  const closeSidebar = () => {
+    isSidebarOpen = false;
+  };
 </script>
 
-<section
-  class="max-w-[2000px] mx-auto overflow-x-hidden overflow-y-display xl:min-h-[832px] h-screen flex"
->
-  <div class="relative flex w-full">
-    <!-- Side Bar -->
-    <div class="md:hidden">
-      <aside
-        class="w-full ease-in-out transform transition-all duration-500 {openSideBar
-          ? ' -translate-x-full opacity-0  '
-          : ' translate-x-0 opacity-100 fixed'} absolute overflow-y-auto z-50"
+<div class="flex min-h-screen bg-background text-foreground overflow-hidden">
+  <!-- Mobile Sidebar Overlay -->
+  {#if isSidebarOpen}
+    <div 
+      role="button"
+      tabindex="0"
+      class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+      onclick={closeSidebar}
+      onkeydown={(e) => e.key === 'Escape' && closeSidebar()}
+      transition:fade={{ duration: 200 }}
+    ></div>
+  {/if}
+
+  <!-- Sidebar Container -->
+  <aside
+    class="fixed inset-y-0 left-0 z-50 w-72 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 
+    {isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}"
+  >
+    <AppSidebar closeSideBar={closeSidebar} />
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="flex flex-col flex-1 w-full relative overflow-hidden">
+    <!-- Top Navigation with Menu Toggle for Mobile -->
+    <div class="flex items-center px-4 md:px-8 bg-background/80 backdrop-blur-md sticky top-0 z-30 border-b border-border/50">
+      <button 
+        onclick={toggleSidebar}
+        class="p-2 mr-2 rounded-lg hover:bg-muted md:hidden text-muted-foreground transition-colors"
+        aria-label="Toggle Menu"
       >
-        <AppSidebar {closeSideBar} />
-      </aside>
-
-      <button class="" onclick={closeSideBar}>Open</button>
-    </div>
-    <!-- End of side bar for small screens-->
-
-    <!-- Side Bar-->
-    <aside class="w-[400px]">
-      <div class="hidden md:block w-[300px] fixed inset-y-0 left-0 z-50">
-        <AppSidebar {closeSideBar} />
+        <Menu size={24} />
+      </button>
+      <div class="flex-1">
+        <NavBar />
       </div>
-    </aside>
-    <!-- End Of Sidebar-->
-
-    <div class="flex flex-col w-full px-5">
-      <NavBar />
-      {@render children?.()}
     </div>
+
+    <!-- Scrollable content area -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-8">
+      <div class="max-w-[1400px] mx-auto w-full">
+        {@render children?.()}
+      </div>
+    </main>
   </div>
-</section>
+</div>
+
+<style>
+  /* Ensure smooth transitions for sidebar */
+  aside {
+    box-shadow: 4px 0 24px -12px rgba(0, 0, 0, 0.1);
+  }
+</style>

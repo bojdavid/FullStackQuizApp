@@ -17,7 +17,7 @@
     }
   }
 
-  console.log(questions);
+  let accuracyPercentage = Math.round((score / questions.length) * 100);
 </script>
 
 {#snippet answer(
@@ -27,56 +27,99 @@
   index: number
 )}
   <div
-    class=" max-w-[872px] mx-auto text-[20px] flex flex-col border-1 {answer ==
+    class="max-w-[800px] mx-auto text-lg flex flex-col sm:flex-row gap-4 sm:gap-6 border-l-4 {answer ==
     choice
-      ? 'border-success'
-      : 'border-error'} mb-[27px] rounded-[10px] px-3 py-3 relative"
+      ? 'border-l-success bg-success/5'
+      : 'border-l-error bg-error/5'} mb-6 rounded-r-xl rounded-l-md px-6 py-6 relative glass-card !border-y-border !border-r-border"
   >
     <div
-      class="absolute right-3 {answer == choice
+      class="flex-shrink-0 flex items-start justify-center pt-1 {answer == choice
         ? 'text-success'
         : 'text-error'}"
     >
       {#if answer == choice}
-        <CircleCheckBig size={40} />
+        <CircleCheckBig size={32} />
       {:else}
-        <CircleXIcon size={40} />
+        <CircleXIcon size={32} />
       {/if}
     </div>
-    <p class="font-bold">
-      {index + 1}: {question}
-    </p>
-
-    <div>
-      <p class="font-bold pl-4">Answer:</p>
-      <p class="font-light pl-10">
-        {answer}
+    
+    <div class="flex-grow">
+      <p class="font-bold text-xl mb-4 text-foreground flex items-start gap-2">
+        <span class="text-muted-foreground">{index + 1}.</span> {question}
       </p>
-    </div>
-    <div class="flex justify-end">
-      <button
-        class="border-b-2 font-light text-16 text-light-primary-accent flex leading-none"
-      >
-        View Reason <span class="my-auto"><ChevronDown /></span>
-      </button>
+
+      <div class="bg-background/50 rounded-lg p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <p class="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1">Your Answer</p>
+          <p class="font-medium {answer == choice ? 'text-success' : 'text-error'}">
+            {choice || "Skipped / No Answer"}
+          </p>
+        </div>
+        
+        {#if answer != choice}
+          <div>
+            <p class="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1">Correct Answer</p>
+            <p class="font-medium text-success">
+              {answer}
+            </p>
+          </div>
+        {/if}
+      </div>
+      
+      <div class="flex justify-end mt-4">
+        <button
+          class="text-sm font-semibold text-primary hover:text-primary/80 transition-colors flex items-center gap-1 group"
+        >
+          View Explanation <span class="group-hover:translate-y-0.5 transition-transform"><ChevronDown size={16}/></span>
+        </button>
+      </div>
     </div>
   </div>
 {/snippet}
 
-<section class="text-light-secondary-text dark:text-dark-main-text">
-  <!-- Score-->
-  <div
-    class="text-dark-secondary-text dark:text-light-secondary-text border-[16px] border-light-primary-accent bg-dark-bg dark:bg-light-bg w-[300px] h-[300px] flex flex-col justify-center items-center mx-auto rounded-full mb-[27px]"
-  >
-    <p class="text-[29px]">Accuracy</p>
-    <p class="text-[60px] font-bold">{score / questions.length} %</p>
-    <p class="text-[32px] font-semibold">30mins</p>
+<section class="max-w-[1000px] mx-auto py-8">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl font-bold mb-2">Quiz Summary</h2>
+    <p class="text-muted-foreground">Here's how you performed on this AI generated quiz.</p>
+  </div>
+  
+  <!-- Score Section -->
+  <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-16">
+    <div class="glass-card w-48 h-48 rounded-full flex flex-col justify-center items-center relative shadow-[0_0_30px_rgba(var(--color-primary-500),0.15)] border-4 border-primary">
+      <div class="absolute inset-0 rounded-full border-[12px] border-primary/20"></div>
+      <p class="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-1 shadow-sm relative z-10">Accuracy</p>
+      <p class="text-5xl font-extrabold text-primary relative z-10">{accuracyPercentage}%</p>
+    </div>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-background border border-border rounded-xl p-6 text-center shadow-sm">
+        <p class="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-2">Score</p>
+        <p class="text-3xl font-bold text-foreground">{score} <span class="text-lg text-muted-foreground font-medium">/ {questions.length}</span></p>
+      </div>
+      <div class="bg-background border border-border rounded-xl p-6 text-center shadow-sm">
+        <p class="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-2">Time spent</p>
+        <p class="text-3xl font-bold text-foreground">30<span class="text-lg text-muted-foreground font-medium">m</span></p>
+      </div>
+    </div>
   </div>
 
-  <!-- Answers -->
-  <div>
+  <div class="flex items-center gap-4 mb-8">
+    <div class="h-[1px] bg-border flex-1"></div>
+    <span class="text-sm text-foreground font-bold uppercase tracking-widest">Question Breakdown</span>
+    <div class="h-[1px] bg-border flex-1"></div>
+  </div>
+
+  <!-- Answers List -->
+  <div class="space-y-6">
     {#each questions as question, i}
       {@render answer(question.prompt, question.answer, question.choice, i)}
     {/each}
+  </div>
+  
+  <div class="mt-12 flex justify-center">
+    <a href="/dashboard" class="bg-primary text-primary-foreground font-bold text-lg px-8 py-4 rounded-xl shadow-lg hover:bg-primary/90 transition-all hover:-translate-y-1">
+      Return to Dashboard
+    </a>
   </div>
 </section>

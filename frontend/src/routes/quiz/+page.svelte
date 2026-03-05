@@ -31,20 +31,17 @@
     if (question_index < questions.length - 1) {
       question_index++;
     }
-    //console.log(questions[question_index]);
   };
 
   const goToPrevQuestion = () => {
     if (question_index > 0) {
       question_index = question_index - 1;
-      //console.log(questions[question_index]);
     }
   };
 
   const goToQuestion = (i: number) => {
     question_index = i;
     viewQuestions();
-    //console.log(questions[i]);
   };
 
   const submitQuiz = () => {
@@ -52,22 +49,33 @@
   };
 
   const quit_quiz = () => {
-    goto("./");
+    goto("./dashboard");
   };
 
   const viewQuestions = () => {
     hideQuestionNavigations = !hideQuestionNavigations;
-    console.log("working");
   };
 </script>
 
-<div class="w-full px-2 py-4 max-w-[800px] mx-auto relative overflow-x-hidden">
-  <div class=" h-screen">
+<div class="w-full min-h-screen bg-background relative overflow-x-hidden">
+  <div class="h-full">
+    <!-- Overlay for Sidebar -->
+    {#if !hideQuestionNavigations}
+      <div 
+        class="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 transition-opacity" 
+        onclick={viewQuestions}
+        onkeydown={(e) => e.key === 'Escape' && viewQuestions()}
+        role="button"
+        tabindex="0"
+        aria-label="Close navigation"
+      ></div>
+    {/if}
+
     <!-- Side Bar -->
     <aside
-      class="ease-in-out transform transition-all duration-500 h-screen {hideQuestionNavigations
-        ? ' -translate-x-full opacity-0  '
-        : ' translate-x-0 opacity-100'} absolute overflow-y-auto z-50"
+      class="fixed font-sans ease-in-out transform transition-all duration-300 h-screen w-80 max-w-[90vw] glass-card !border-y-0 !border-l-0 shadow-2xl {hideQuestionNavigations
+        ? '-translate-x-full opacity-0'
+        : 'translate-x-0 opacity-100'} z-50 top-0 left-0 overflow-y-auto"
     >
       <NavigateQuestions
         {questions}
@@ -76,81 +84,122 @@
         {viewQuestions}
       />
     </aside>
-    <header class="mx-auto mb-5">
-      <NavBar title={data.quiz.title} />
-      {#if !submit}
-        <Progress value={question_index + 1} max={questions.length} class="" />
-        <ProgressBar />
-      {/if}
-    </header>
-    {#if submit}
-      <Results {questions} />
-    {:else}
-      <div
-        class="max-w-[596px] mx-auto text-light-secondary-text dark:text-dark-main-text"
-      >
-        <!-- Timer -->
-        <Timer />
-        <div class="w-full flex justify-end mb-[20.37px]">
-          <button class="text-[16px] font-semibold" onclick={viewQuestions}>
-            View Questions
-          </button>
-        </div>
 
-        <!-- Question Number and Quit button -->
-        <div
-          class="text-[16px] mb-[20.57px] flex justify-between leading-none font-semibold"
-        >
-          Question {question_index + 1} of {questions.length}
-
-          <div class="text-error">
-            <AlertDialogue
-              triggerText="Quit"
-              title="Are you sure you want to quit"
-              description="Your current Progress will not be saved."
-              action={quit_quiz}
-            />
+    <div class="max-w-[800px] mx-auto px-4 py-8">
+      <header class="mb-8">
+        <NavBar title={data.quiz.title} />
+        {#if !submit}
+          <div class="mt-6 flex flex-col gap-2">
+            <div class="flex justify-between items-end">
+              <span class="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Progress</span>
+              <span class="text-sm font-bold text-primary">{Math.round(((question_index + 1) / questions.length) * 100)}%</span>
+            </div>
+            <Progress value={((question_index + 1) / questions.length) * 100} class="h-2" />
           </div>
-        </div>
-
-        <!--    Quiz container-->
-        {#if questions[question_index].type == "mcq"}
-          <MCQ question={questions[question_index]} />
-        {:else if questions[question_index].type == "flashcard"}
-          <FlashCard question={questions[question_index]} />
-        {:else if questions[question_index].type == "true-false"}
-          <MCQ question={questions[question_index]} />
-        {:else}
-          "Well, something is wrong here...."
         {/if}
-
-        <!--   Actions -->
-        <div class="flex justify-between mt-[15px]">
-          <button class={buttonClass("success")} onclick={submitQuiz}>
-            Submit
-          </button>
-          <AlertDialogue
-            triggerText="Submit"
-            title="Submit Your Quiz"
-            action={submitQuiz}
-            description="Make sure you have attempted all questions"
-          />
-
-          <!-- Navigation-->
-          <div class="flex justify-between w-[215px]">
-            <button
-              class={buttonClass("ordinary")}
-              onclick={() => goToPrevQuestion()}
-              disabled={question_index === 0}>Prev</button
+      </header>
+      
+      {#if submit}
+        <Results {questions} />
+      {:else}
+        <div
+          class="w-full flex flex-col min-h-[500px]"
+        >
+          <!-- Top Controls (Timer, Nav Toggle) -->
+          <div class="flex justify-between items-center mb-8 bg-muted/40 p-4 rounded-xl border border-border">
+            <Timer />
+            <button 
+              class="flex items-center gap-2 text-sm font-bold text-primary hover:text-primary/80 transition-colors bg-primary/10 px-4 py-2 rounded-lg" 
+              onclick={viewQuestions}
             >
-            <button
-              class={buttonClass("ordinary")}
-              onclick={() => goToNextQuestion()}
-              disabled={question_index === questions.length - 1}>Next</button
-            >
+              <i class="fa-solid fa-list-ul"></i>
+              Question List
+            </button>
+          </div>
+
+          <!-- Question Number and Quit button -->
+          <div
+            class="text-[16px] mb-6 flex justify-between items-center leading-none font-bold text-foreground"
+          >
+            <div class="flex items-center gap-3">
+              <div class="bg-primary/20 text-primary w-10 h-10 rounded-full flex items-center justify-center border border-primary/30">
+                {question_index + 1}
+              </div>
+              <span class="text-muted-foreground font-medium">of {questions.length}</span>
+            </div>
+
+            <div class="text-error">
+              <AlertDialogue
+                triggerText="Quit Session"
+                title="End Quiz Early?"
+                description="Your current progress will be lost. Are you sure you want to return to the dashboard?"
+                action={quit_quiz}
+              />
+            </div>
+          </div>
+
+          <!-- Quiz container -->
+          <div class="flex-grow">
+            {#if questions[question_index].type == "mcq"}
+              <MCQ question={questions[question_index]} />
+            {:else if questions[question_index].type == "flashcard"}
+              <FlashCard question={questions[question_index]} />
+            {:else if questions[question_index].type == "true-false"}
+              <MCQ question={questions[question_index]} />
+            {:else}
+              <div class="glass-card p-8 rounded-xl text-center">
+                <i class="fa-solid fa-triangle-exclamation text-4xl text-warning mb-4"></i>
+                <p class="font-bold">Unknown question type encountered.</p>
+              </div>
+            {/if}
+          </div>
+
+          <!-- Actions Footer -->
+          <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-8 pt-6 border-t border-border">
+            {#if question_index === questions.length - 1}
+              <div class="w-full sm:w-auto order-1 sm:order-none">
+                <AlertDialogue
+                  triggerText="Finish & Submit"
+                  title="Submit Your Quiz"
+                  action={submitQuiz}
+                  description="You are about to submit your quiz for grading."
+                />
+              </div>
+            {:else}
+              <!-- Hidden spacer for flexbox alignment on non-last questions -->
+              <div class="w-full sm:w-auto order-1 sm:order-none hidden sm:block opacity-0 pointer-events-none">
+                <button class={buttonClass("ordinary")}>Spacer</button>
+              </div>
+            {/if}
+
+            <!-- Navigation Box -->
+            <div class="flex gap-3 w-full sm:w-auto">
+              <button
+                class="flex-1 sm:flex-none flex justify-center items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all {question_index === 0 ? 'bg-muted text-muted-foreground/50 cursor-not-allowed' : 'bg-muted text-foreground hover:bg-muted/80 border border-border'}"
+                onclick={() => goToPrevQuestion()}
+                disabled={question_index === 0}>
+                <i class="fa-solid fa-arrow-left"></i> Previous
+              </button>
+              
+              <button
+                class="flex-1 sm:flex-none flex justify-center items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all {question_index === questions.length - 1 ? 'bg-muted text-muted-foreground/50 cursor-not-allowed' : 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_15px_rgba(var(--color-primary-500),0.3)]'}"
+                onclick={() => goToNextQuestion()}
+                disabled={question_index === questions.length - 1}>
+                Next <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+            
+            <!-- Mobile submit button fallback -->
+            {#if question_index === questions.length - 1}
+              <div class="w-full block sm:hidden">
+                <button class="w-full bg-success text-success-foreground font-bold py-3 rounded-xl" onclick={submitQuiz}>
+                  Finish & Submit
+                </button>
+              </div>
+            {/if}
           </div>
         </div>
-      </div>
-    {/if}
+      {/if}
+    </div>
   </div>
 </div>

@@ -1,83 +1,92 @@
 <script lang="ts">
   let { editProfile, userProfile = $bindable() } = $props();
 
-  const INPUTSTYLE: string = `w-full px-4 py-3 border border-light-tetiary-accent rounded-md
-                 text-gray-900 placeholder-gray-500
-                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                 dark:text-dark-main-text dark:placeholder-dark-main-text/50 
-                 
-                  disabled:bg-light-tetiary-accent/50 disabled:dark:bg-light-tetiary-accent/20
-                  disabled:text-gray-400 disabled:dark:text-neutral-500
-                  disabled:cursor-not-allowed
-                  disabled:border-gray-300 disabled:dark:border-neutral-600
-                  bg-transparent  appearance-none  peer block
-                 `;
+  const inputClass = `
+    w-full px-4 py-3.5 rounded-xl border-2 transition-all duration-300
+    bg-card/50 backdrop-blur-sm
+    text-foreground placeholder-transparent
+    focus:outline-none focus:ring-4 focus:ring-primary/10
+    disabled:opacity-50 disabled:cursor-not-allowed
+    peer
+  `;
 
-  const LabelStyle = `absolute text-sm text-gray-500 dark:text-gray-400 duration-300 
-    transform -translate-y-4 scale-75 top-2 z-10 origin-[0] 
-    dark:bg-dark-bg bg-light-bg px-2 
-    peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1`;
+  const labelClass = `
+    absolute left-4 -top-2.5 px-2 bg-card text-xs font-semibold tracking-wide
+    text-muted-foreground transition-all duration-300
+    peer-placeholder-shown:text-base peer-placeholder-shown:top-3.5 peer-placeholder-shown:bg-transparent
+    peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-primary peer-focus:bg-card
+  `;
 </script>
 
 <div class="w-full">
-  <form action="">
-    <div class="flex justify-between gap-10">
+  <form onsubmit={(e) => e.preventDefault()} class="space-y-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- First Name -->
-      <div class="relative w-full">
+      <div class="relative">
         <input
           type="text"
           id="firstname"
           name="firstname"
           bind:value={userProfile.firstname}
-          class={INPUTSTYLE}
+          class="{inputClass} {editProfile
+            ? 'border-primary/50'
+            : 'border-border/50'}"
           disabled={!editProfile}
-          placeholder=""
+          placeholder="First Name"
         />
-        <label for="firstname" class={LabelStyle}>First Name</label>
+        <label for="firstname" class={labelClass}>First Name</label>
       </div>
 
       <!-- Last Name -->
-      <div class="relative w-full">
+      <div class="relative">
         <input
           type="text"
           id="lastname"
           name="lastname"
           bind:value={userProfile.lastname}
-          class={INPUTSTYLE}
+          class="{inputClass} {editProfile
+            ? 'border-primary/50'
+            : 'border-border/50'}"
           disabled={!editProfile}
-          placeholder=""
+          placeholder="Last Name"
         />
-        <label for="lastname" class={LabelStyle}>Last Name</label>
+        <label for="lastname" class={labelClass}>Last Name</label>
       </div>
     </div>
 
-    <div class="flex justify-between gap-10 mt-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Email -->
-      <div class="relative w-full">
+      <div class="relative">
         <input
           type="email"
           id="email"
           name="email"
           bind:value={userProfile.email}
-          class={INPUTSTYLE}
+          class="{inputClass} {editProfile
+            ? 'border-primary/50'
+            : 'border-border/50'}"
           disabled={!editProfile}
-          placeholder=" "
+          placeholder="Email Address"
         />
-        <label for="email" class={LabelStyle}>Email</label>
+        <label for="email" class={labelClass}>Email Address</label>
       </div>
 
       <!-- Gender -->
-      <div class="relative w-full">
-        <input
-          type="text"
+      <div class="relative">
+        <select
           id="gender"
           name="gender"
           bind:value={userProfile.gender}
-          class={INPUTSTYLE}
+          class="{inputClass} {editProfile
+            ? 'border-primary/50'
+            : 'border-border/50'} appearance-none"
           disabled={!editProfile}
-          placeholder=""
-        />
-        <label for="gender" class={LabelStyle}>Gender</label>
+        >
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+        <label for="gender" class={labelClass}>Gender</label>
       </div>
     </div>
   </form>
