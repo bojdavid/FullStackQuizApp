@@ -6,4 +6,30 @@
 
 @custom-variant dark (&:where([data-mode="dark"], [data-mode="dark"] *));
 
+@layer base {
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --card-glow: 0 0 20px rgba(var(--color-primary-500), 0.15);
+        --hover-glow: 0 0 30px rgba(var(--color-primary-500), 0.3);
+
+        --purple-gradient: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+        --blue-gradient: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(16, 185, 129, 0.1));
+    }
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--card-glow);
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    box-shadow: var(--hover-glow);
+    transform: translateY(-2px);
+}
+
 @source '../../node_modules/@skeletonlabs/skeleton-svelte/dist';

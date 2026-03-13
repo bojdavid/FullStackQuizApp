@@ -7,6 +7,9 @@
 
   const viewAnswer = () => {
     checkAnswer = !checkAnswer;
+    if (checkAnswer) {
+      question.choice = "viewed";
+    }
   };
 </script>
 

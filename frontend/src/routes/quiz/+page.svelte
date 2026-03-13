@@ -23,7 +23,7 @@
 
   let { data } = $props();
   console.log(data);
-  let questions: Question[] = data.quiz.questions;
+  let questions: Question[] = $state(data.quiz.questions);
   let question_index: number = $state(0);
   let submit: boolean = $state(false);
   let hideQuestionNavigations = $state(true);
@@ -193,23 +193,16 @@
           <div
             class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-8 pt-6 border-t border-border"
           >
-            {#if question_index === questions.length - 1}
-              <div class="w-full sm:w-auto order-1 sm:order-none">
-                <AlertDialogue
-                  triggerText="Finish & Submit"
-                  title="Submit Your Quiz"
-                  action={submitQuiz}
-                  description="You are about to submit your quiz for grading."
-                />
-              </div>
-            {:else}
-              <!-- Hidden spacer for flexbox alignment on non-last questions -->
-              <div
-                class="w-full sm:w-auto order-1 sm:order-none hidden sm:block opacity-0 pointer-events-none"
-              >
-                <button class={buttonClass("ordinary")}>Spacer</button>
-              </div>
-            {/if}
+            <div
+              class="w-full sm:w-auto order-1 sm:order-none bg-success text-success-foreground font-bold py-3 rounded-xl text-center px-5 py-2 rounded-lg hover:-translate-y-[5px] transition duration-300 cursor-pointer ease-in-out group"
+            >
+              <AlertDialogue
+                triggerText="Finish & Submit"
+                title="Submit Your Quiz"
+                action={submitQuiz}
+                description="You are about to submit your quiz for grading."
+              />
+            </div>
 
             <!-- Navigation Box -->
             <div class="flex gap-3 w-full sm:w-auto">
@@ -233,16 +226,6 @@
                 disabled={question_index === questions.length - 1}
               >
                 Next <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </div>
-
-            <!-- Mobile submit button fallback -->
-            <div class="w-full block sm:hidden">
-              <button
-                class="w-full bg-success text-success-foreground font-bold py-3 rounded-xl"
-                onclick={submitQuiz}
-              >
-                Finish & Submit
               </button>
             </div>
           </div>

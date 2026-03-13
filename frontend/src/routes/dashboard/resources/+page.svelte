@@ -8,17 +8,17 @@
   // Mock data for demonstration
   const mockQuizzes: Quiz[] = [
     {
-      id: "1",
-      title: "Introduction to Biology",
+      id: "physics-101",
+      title: "Introduction to Physics",
       description:
-        "A comprehensive quiz covering cell structure, genetics, and evolution based on your uploaded textbook.",
+        "A comprehensive quiz covering mechanics, thermodynamics, and electromagnetism based on your uploaded textbook.",
       questions: Array(25).fill({}),
     },
     {
-      id: "2",
-      title: "Modern UI Design Patterns",
+      id: "economics-intro",
+      title: "Introduction to Economics",
       description:
-        "Testing your knowledge on glassmorphism, accessibility, and responsive layouts.",
+        "Testing your knowledge on microeconomics, macroeconomics, and international trade based on your uploaded textbook.",
       questions: Array(15).fill({}),
     },
     {
