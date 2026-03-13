@@ -40,20 +40,22 @@
 
   <!-- Bottom section: Available Quizzes -->
   <section class="mt-16">
-    <div class="flex items-center justify-between mb-8">
-      <div>
-        <h2 class="text-2xl font-bold flex items-center gap-2">
+    <div class="flex max-sm:flex-col items-center justify-between mb-8">
+      <div class=" max-sm:mb-4">
+        <h2
+          class="text-2xl font-bold flex items-center gap-2 max-sm:justify-center"
+        >
           <i class="fa-solid fa-layer-group text-primary"></i>
           Your Quizzes
         </h2>
-        <p class="text-sm text-muted-foreground mt-1">
+        <p class="text-sm text-muted-foreground mt-1 max-sm:text-center">
           Generated quizzes ready to be taken.
         </p>
       </div>
 
       <a
         href="/dashboard/upload"
-        class="glass-card bg-primary/20 hover:bg-primary/30 text-primary border-primary/30 px-4 py-2 rounded-lg font-medium flex items-center gap-2"
+        class=" text-sm md:text-md glass-card bg-primary/20 hover:bg-primary/30 text-primary border-primary/30 px-4 py-2 rounded-lg font-medium flex items-center gap-2"
       >
         <i class="fa-solid fa-plus"></i>
         New Custom Quiz

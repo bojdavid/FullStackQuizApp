@@ -53,7 +53,8 @@
     <h3
       class="text-4xl md:text-5xl font-extrabold text-foreground tracking-tight mb-2"
     >
-      {u.firstname} <span class="text-gradient">{u.lastname}</span>
+      {u.firstname}
+      {" "}{u.lastname}
     </h3>
 
     <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-4">

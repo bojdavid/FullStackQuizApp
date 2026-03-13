@@ -12,7 +12,7 @@
 </script>
 
 <div class="glass-card rounded-xl p-6 h-full flex flex-col">
-  <div class="flex justify-between items-center mb-6">
+  <div class="flex justify-between items-center mb-10">
     <h3 class="text-xl font-bold flex items-center gap-2">
       <i class="fa-solid fa-trophy text-warning"></i>
       Global Leaderboard

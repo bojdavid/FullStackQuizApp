@@ -17,7 +17,7 @@
   };
 </script>
 
-<div class="flex min-h-screen bg-background text-foreground overflow-hidden">
+<div class="flex h-screen bg-background text-foreground overflow-hidden">
   <!-- Mobile Sidebar Overlay -->
   {#if isSidebarOpen}
     <div
@@ -32,17 +32,18 @@
 
   <!-- Sidebar Container -->
   <aside
-    class="fixed inset-y-0 left-0 z-50 w-72 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0
+    class="fixed inset-y-0 left-0 bottom-0 z-50 w-72 transform transition-transform duration-300 ease-in-out
+    md:sticky md:top-0 md:translate-x-0 md:h-screen md:shrink-0 overflow-y-auto
     {isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}"
   >
     <AppSidebar closeSideBar={closeSidebar} />
   </aside>
 
   <!-- Main Content Area -->
-  <div class="flex flex-col flex-1 w-full relative overflow-hidden mt-16">
+  <div class="flex flex-col flex-1 min-w-0 relative h-full">
     <!-- Top Navigation with Menu Toggle for Mobile -->
-    <div
-      class="flex items-center px-4 md:px-8 bg-background/80 backdrop-blur-md fixed w-full md:w-auto top-0 z-30 border-b border-border/50"
+    <header
+      class="h-16 flex items-center px-4 md:px-8 bg-background/80 backdrop-blur-md sticky top-0 z-30 border-b border-border/50 shrink-0"
     >
       <button
         onclick={toggleSidebar}
@@ -54,7 +55,7 @@
       <div class="flex-1">
         <NavBar />
       </div>
-    </div>
+    </header>
 
     <!-- Scrollable content area -->
     <main class="flex-1 overflow-y-auto p-4 md:p-8">
