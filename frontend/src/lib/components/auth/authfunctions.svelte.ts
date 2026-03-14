@@ -1,75 +1,75 @@
 import { goto } from "$app/navigation";
-import { error } from "@sveltejs/kit";
-//Common style exports
-export   const buttonStyle: string =
-"w-full py-3 rounded-md  text-white text-xl font-semibold  transition duration-200";
+import { authState } from "$lib/store/user.svelte";
 
+// Common style exports
+export const buttonStyle: string = "w-full py-3 rounded-md text-white text-xl font-semibold transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 flex justify-center items-center gap-2";
 
+export const inputStyle: string = "w-full bg-light-bg dark:bg-dark-bg border border-light-secondary-accent/20 dark:border-dark-secondary-accent/20 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all";
+export const labelStyle: string = "block text-sm font-medium text-light-tetiary-accent dark:text-dark-tetiary-accent/80 mb-1.5";
 
-export const values = $state({
-    currentStep: 1,
-    redirectSuccessLoader : false,
-    errorMessage : "",
-    isError : false
-})
-
-export const increaseSteps = (end:boolean = false) => {
-    if (end){
-        values.currentStep += 1
-        values.redirectSuccessLoader = true
-        return
-    }
-    if (values.currentStep < 3) {
-      values.currentStep += 1;
-    } else {
-      values.currentStep = 1;
-    }
-  };
-
-export  const decreaseSteps = () => {
-    if (values.currentStep > 1) {
-      values.currentStep -= 1;
-    } else {
-      values.currentStep = 1;
-    }
-  };
-
-export  const loginSubmit = async (event: any) => {
-    const form = event.currentTarget;
-    
-    // 1. Let the browser validate
-    if (!form.checkValidity()) {
-        return; // invalid → stop, browser shows tooltip
-    }
-
+export const loginSubmit = async (event: Event, email: string, password: string) => {
     event.preventDefault();
+    
+    const form = event.currentTarget as HTMLFormElement;
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
 
-    if (values.currentStep === 1) {
-        // Email/username step - just move to next step
-        values.currentStep = 2;
-    } else if (values.currentStep === 2) {
-        // Password is valid - proceed with login
-        values.redirectSuccessLoader = true;
-        values.currentStep = 3; // Move to loading/success step
+    authState.isLoading = true;
+    authState.error = null;
+    
+    try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1500));
         
-        try {
-            let testerror = false
+        // Mock success
+        $effect.root(() => {
+             authState.isAuthenticated = true;
+             authState.isLoading = false;
+        });
 
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 3000));
-            if(testerror){
-                throw new Error("Login failed - test error");
-            }else{
-                // Redirect on success
-                goto("./dashboard");
-            }
-        } catch (error) {
-            // Handle error - reset state
-            values.redirectSuccessLoader = false;
-            values.isError = true;
-            values.currentStep = 1; // Go back to first step
-            values.errorMessage = `${error}`
-            setTimeout(() => {values.isError= false}, 2000)
-        }
+        authState.isAuthenticated = true;
+        authState.isLoading = false;
+
+        // Redirect on success
+        goto("/dashboard");
+    } catch (error: any) {
+        authState.error = error.message || "Failed to sign in. Please try again.";
+        authState.isLoading = false;
+        setTimeout(() => {
+            if(authState.error) authState.error = null;
+        }, 3000);
+    }
+};
+
+export const signupSubmit = async (event: Event, name: string, email: string, password: string) => {
+    event.preventDefault();
+    
+    const form = event.currentTarget as HTMLFormElement;
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    authState.isLoading = true;
+    authState.error = null;
+    
+    try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Mock success directly logs them in for smooth flow
+        authState.isAuthenticated = true;
+        authState.isLoading = false;
+
+        // Redirect on success
+        goto("/dashboard");
+    } catch (error: any) {
+        authState.error = error.message || "Failed to create account. Please try again.";
+        authState.isLoading = false;
+        setTimeout(() => {
+            if(authState.error) authState.error = null;
+        }, 3000);
     }
 };

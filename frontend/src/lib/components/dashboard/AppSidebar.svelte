@@ -9,8 +9,15 @@
     LayoutDashboard,
   } from "@lucide/svelte";
   import { page } from "$app/state";
+  import { authState } from "$lib/store/user.svelte";
 
   let { closeSideBar } = $props();
+  const logout = () => {
+    authState.isAuthenticated = false;
+    authState.isLoading = false;
+    authState.error = null;
+    //goto("/");
+  };
 
   interface sideBarRoutes {
     name: string;
@@ -77,6 +84,7 @@
   <div class="pt-6 border-t border-border/50">
     <a
       href="/"
+      onclick={logout}
       class="flex items-center gap-3 px-4 py-3 rounded-xl text-error hover:bg-error/10 transition-colors group"
     >
       <LogOut

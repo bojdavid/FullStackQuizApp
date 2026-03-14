@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
   import LightSwitch from "$lib/components/common/LightSwitch.svelte";
+  import { authState } from "$lib/store/user.svelte";
   import {
     BrainCircuit,
     FileText,
@@ -55,7 +56,14 @@
 
       <div class="flex items-center gap-4">
         <LightSwitch size={24} />
-        <Button href="/auth">Login</Button>
+        {#if authState.isAuthenticated}
+          <Button href="/dashboard" class="flex items-center gap-2">
+            Dashboard
+            <ArrowRight class="size-4" />
+          </Button>
+        {:else}
+          <Button href="/auth">Login</Button>
+        {/if}
       </div>
     </div>
   </nav>
@@ -90,10 +98,17 @@
             subject faster than ever.
           </p>
           <div class="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" href="/auth" class="px-8 h-12 text-lg">
-              Get Started for Free
-              <ArrowRight class="ml-2 size-5" />
-            </Button>
+            {#if authState.isAuthenticated}
+              <Button size="lg" href="/dashboard" class="px-8 h-12 text-lg">
+                Go to Dashboard
+                <ArrowRight class="ml-2 size-5" />
+              </Button>
+            {:else}
+              <Button size="lg" href="/auth" class="px-8 h-12 text-lg">
+                Get Started for Free
+                <ArrowRight class="ml-2 size-5" />
+              </Button>
+            {/if}
             <Button
               size="lg"
               variant="outline"
@@ -213,21 +228,31 @@
           courses and pass their exams with flying colors.
         </p>
         <div class="flex flex-col sm:flex-row justify-center gap-6">
-          <Button
-            size="lg"
-            href="/auth"
-            class="px-12 h-14 text-xl rounded-full"
-          >
-            Join Now
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            href="/dashboard"
-            class="px-12 h-14 text-xl rounded-full"
-          >
-            View Dashboard
-          </Button>
+          {#if authState.isAuthenticated}
+             <Button
+              size="lg"
+              href="/dashboard"
+              class="px-12 h-14 text-xl rounded-full"
+            >
+              Go to Dashboard
+            </Button>
+          {:else}
+            <Button
+              size="lg"
+              href="/auth"
+              class="px-12 h-14 text-xl rounded-full"
+            >
+              Join Now
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              href="/dashboard"
+              class="px-12 h-14 text-xl rounded-full"
+            >
+              View Dashboard
+            </Button>
+          {/if}
         </div>
       </div>
     </div>

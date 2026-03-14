@@ -1,5 +1,11 @@
 import type { Profile } from "$lib/types/profile"
 
+export const authState = $state({
+    isAuthenticated: false,
+    isLoading: false,
+    error: null as string | null
+})
+
 export const userProfile : Profile = $state({
     firstname : "BOJ",
     lastname : "David",

@@ -3,8 +3,18 @@
   import NavBar from "$lib/components/dashboard/NavBar.svelte";
   import { Menu } from "@lucide/svelte";
   import { fade, fly } from "svelte/transition";
+  import { authState } from "$lib/store/user.svelte";
+  import { goto } from "$app/navigation";
+  import { onMount, type Snippet } from "svelte";
 
-  let { children } = $props();
+  let { children }: { children: Snippet } = $props();
+
+  onMount(() => {
+    if (!authState.isAuthenticated) {
+      console.log("user is not authenicated");
+      // goto("/auth");
+    }
+  });
 
   let isSidebarOpen = $state(false);
 
